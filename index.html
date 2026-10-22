@@ -72,13 +72,50 @@ svg{display:block}
 
 /* ============ today ============ */
 .dayhead{display:flex;align-items:center;justify-content:space-between;margin:0 -10px 8px}
-.daylabel{font-size:16px;font-weight:600;padding:8px 14px;border-radius:99px}
+.daylabel{font-size:16px;font-weight:600;padding:8px 10px;border-radius:99px;display:flex;align-items:center;gap:7px;min-height:40px}
+.daylabel svg{width:17px;height:17px;color:var(--accent);flex:none}
+.daylabel .day-chevron{display:flex;align-items:center}
+.daylabel .day-chevron svg{width:14px;height:14px;color:var(--ink3)}
 .daylabel:active{background:var(--sunk)}
 .dayright{display:flex}
+/* ============ day calendar ============ */
+.calendar-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 0 14px}
+.calendar-title{font-size:22px;font-weight:600;letter-spacing:-.025em}
+.calendar-controls{display:flex;gap:4px}
+.calendar-weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.calendar-weekdays{margin:12px 0 5px}
+.calendar-weekdays span{text-align:center;color:var(--ink3);font-size:12px;font-weight:600;padding:4px 0}
+.calendar-day{aspect-ratio:1/1;min-height:41px;max-height:62px;width:100%;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:15px;font-weight:500;position:relative}
+.calendar-day:not(.calendar-selected):active{background:var(--sunk)}
+.calendar-day.calendar-outside{color:var(--ink3);opacity:.62}
+.calendar-day.calendar-current:not(.calendar-selected){box-shadow:inset 0 0 0 1.5px var(--accent);color:var(--accent);font-weight:700}
+.calendar-day.calendar-selected{background:var(--accent);color:var(--accent-ink);font-weight:700}
+.calendar-dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.calendar-selected .calendar-dot{background:var(--accent-ink)}
+.calendar-blank{width:5px;height:5px}
+.calendar-footer{border-top:1px solid var(--line);margin-top:18px;padding-top:16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.calendar-legend{font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:7px}
+.calendar-legend .calendar-dot{flex:none}
+.calendar-today{border:1px solid var(--line);border-radius:99px;padding:9px 16px;font-size:14px;color:var(--accent);font-weight:600;white-space:nowrap}
+.calendar-today:active{background:var(--sunk)}
 .hero{padding:10px 0 22px}
-.hero-num{font-size:clamp(58px,18vw,80px);font-weight:600;letter-spacing:-.045em;line-height:.95;display:flex;align-items:baseline;flex-wrap:wrap}
+/* Tappable daily/weekly calorie summary */
+.hero-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:1px 0 13px}
+.hero-title{font-size:13px;font-weight:600;color:var(--ink2)}
+.calorie-scope{display:flex;align-items:center;gap:2px;background:var(--sunk);padding:3px;border-radius:12px}
+.calorie-scope button{min-width:62px;text-align:center;padding:7px 11px;border-radius:9px;font-size:13px;font-weight:600;color:var(--ink2);line-height:1.25}
+.calorie-scope button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.hero-period{font-size:13px;color:var(--ink3);margin:0 0 7px}
+.hero-switch{display:block;width:100%;border-radius:13px;text-align:left;padding:3px 0 4px;touch-action:manipulation}
+.hero-switch:active .hero-tap-hint{color:var(--accent)}
+.hero-num{font-size:clamp(54px,17vw,80px);font-weight:600;letter-spacing:-.045em;line-height:.99;display:flex;align-items:baseline;flex-wrap:wrap;gap:0}
 .hero-num.over{color:var(--over)}
-.hero-unit{font-size:17px;color:var(--ink2);font-weight:500;letter-spacing:0;margin-left:10px}
+.hero-unit{font-size:17px;color:var(--ink2);font-weight:500;letter-spacing:0;margin-left:10px;white-space:nowrap}
+.hero-tap-hint{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink3);padding-top:7px;font-weight:500}
+.hero-tap-hint svg{width:14px;height:14px;flex:none}
+.hero-week-note{font-size:11.5px;line-height:1.45;color:var(--ink3);margin-top:8px}
+.hero-macros-title{font-size:12px;font-weight:600;color:var(--ink3);margin:0 0 8px;padding-top:3px}
+@media(max-width:365px){.hero-num{font-size:clamp(48px,15.5vw,58px)}.hero-unit{font-size:14px}.calorie-scope button{min-width:54px;padding:7px 9px}}
 .fuel{position:relative;height:12px;border-radius:99px;background:var(--sunk);overflow:hidden;display:flex;margin:20px 0 10px}
 .fuel span{height:100%;flex:none}
 .fuel span+span{box-shadow:inset 2px 0 0 var(--bg)}
@@ -114,6 +151,81 @@ svg{display:block}
 .meal-add svg{width:17px;height:17px}
 .copyhint{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
 
+
+/* ============ enhanced date navigation ============ */
+.week-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;margin:0 0 11px;padding:1px 0 12px;border-bottom:1px solid var(--line)}
+.week-day{display:flex;min-width:0;min-height:62px;align-items:center;justify-content:center;flex-direction:column;gap:5px;border-radius:13px;font-size:15px;font-weight:600;color:var(--ink2)}
+.week-day .week-name{font-size:11px;font-weight:500;color:var(--ink3)}
+.week-day.week-selected{background:var(--accent);color:var(--accent-ink)}
+.week-day.week-selected .week-name{color:var(--accent-ink);opacity:.85}
+.week-day.week-current:not(.week-selected){box-shadow:inset 0 0 0 1.5px var(--accent)}
+.week-day .week-dot{height:4px;width:4px;border-radius:50%;background:var(--accent)}
+.week-day .week-dot.over{background:var(--over)}
+.week-day.week-selected .week-dot{background:var(--accent-ink)}
+.week-day .week-blank{height:4px;width:4px}
+.calendar-header{margin-bottom:4px}
+.calendar-controls{align-items:center}
+.calendar-jump-toggle{font-size:13px;color:var(--accent);font-weight:600;padding:6px 7px;white-space:nowrap;border-radius:9px}
+.calendar-jump-toggle:active{background:var(--sunk)}
+.calendar-jump{background:var(--bg);border:1px solid var(--line);padding:12px;border-radius:14px;margin:13px 0}
+.calendar-jump label{display:block;font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:8px}
+.calendar-jump-row{display:flex;gap:8px}
+.calendar-jump-row .inp{min-width:0;flex:1;background:var(--surface);height:44px}
+.calendar-jump-row .btn{font-size:14px;height:44px;padding:0 14px;white-space:nowrap}
+.calendar-progress{width:23px;height:4px;border-radius:9px;background:var(--sunk);overflow:hidden;display:block}
+.calendar-progress>span{height:100%;display:block;min-width:3px;border-radius:9px;background:var(--accent)}
+.calendar-progress.over>span{background:var(--over)}
+.calendar-selected .calendar-progress{background:rgba(255,255,255,.35)}
+.calendar-selected .calendar-progress>span{background:var(--accent-ink)}
+.calendar-blank{height:4px;width:23px}
+.calendar-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:14px 12px;border-radius:14px;background:var(--bg);margin-top:14px}
+.calendar-stats .cstat{min-width:0;text-align:center}
+.calendar-stats b{display:block;font-size:19px;line-height:1.25;font-weight:600;letter-spacing:-.02em}
+.calendar-stats span{display:block;margin-top:4px;font-size:11.5px;color:var(--ink2);line-height:1.3}
+.calendar-stats-note{color:var(--ink3);font-size:11px;line-height:1.4;margin:8px 2px 0}
+.calendar-legend{flex-wrap:wrap;gap:8px 12px;font-size:12px}
+.calendar-legend-item{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.calendar-legend .calendar-dot.over{background:var(--over)}
+.calendar-footer{margin-top:14px;padding-top:13px}
+@media(max-width:365px){.calendar-title{font-size:19px}.calendar-controls{gap:0}.calendar-day{min-height:37px}.calendar-footer{gap:7px}.calendar-today{padding:8px 10px;font-size:12px}.calendar-stats{padding:12px 6px}.week-day{min-height:56px}}
+
+/* ============ full-app usability improvements ============ */
+.quicktools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:13px 0 9px}
+.quicktool{min-width:0;min-height:58px;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--surface);font-weight:600;font-size:13px;color:var(--ink2);white-space:nowrap}
+.quicktool svg{width:17px;height:17px;flex:none;color:var(--accent)}
+.quicktool:active{background:var(--sunk)}
+.return-today{font-size:13px;font-weight:600;color:var(--accent);padding:8px 2px;display:inline-flex;align-items:center;gap:5px}.return-today svg{width:16px;height:16px}
+.insight-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px}
+.insight-card h3{font-size:14px;font-weight:600;margin:0 0 5px}
+.insight-card p{color:var(--ink2);font-size:13px;line-height:1.5}
+.choice-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:12px 0}
+.choice-row button{padding:7px 12px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--ink2);font-weight:600;background:transparent}
+.choice-row button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.trend-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.trend-top .choice-row{margin-top:0}
+.chart-wrap{padding:14px 0 5px}
+.trend-axis{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3)}
+.trend-note{font-size:12px;color:var(--ink3);margin:8px 0 3px}
+.trend-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+.trend-stats>div{background:var(--sunk);border-radius:13px;padding:12px 9px;min-width:0}
+.trend-stats b{font-size:19px;font-weight:600;display:block}
+.trend-stats span{display:block;color:var(--ink2);font-size:11px;line-height:1.35;margin-top:2px}
+.weight-entry{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:8px;align-items:end;margin:12px 0}
+.weight-entry label{display:block;min-width:0}
+.weight-entry label span{display:block;color:var(--ink2);font-size:12px;margin:0 0 5px}
+.weight-entry .inp{min-width:0;padding:0 9px;font-size:14px}
+.weight-entry .btn{height:48px;padding:0 13px}
+.library-top .searchbox{margin:2px 0 12px}
+.library-top .searchbox input{padding-left:43px}
+.lib-info{color:var(--ink3);font-size:12px;margin:10px 0 0}
+.lib-filter{margin:6px 0 10px}
+.lib-filter .chip{font-size:13px;padding:0 12px;height:34px}
+.library-results .p-sec:first-child{padding-top:8px}
+.data-overview{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0 14px}
+.data-overview>div{border-radius:12px;padding:12px 8px;background:var(--sunk);text-align:center}
+.data-overview b{font-size:19px;font-weight:600;display:block}
+.data-overview span{font-size:11px;color:var(--ink2)}
+@media(max-width:370px){.quicktools{gap:5px}.quicktool{font-size:11.5px;gap:4px}.quicktool svg{width:15px;height:15px}.weight-entry{gap:5px}.weight-entry .inp{font-size:12px;padding:0 5px}.weight-entry .btn{font-size:13px;padding:0 10px}.choice-row button{padding:7px 10px}}
 /* ============ food ============ */
 .ctx{font-size:14px;color:var(--over);margin:-6px 0 12px}
 .chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
@@ -149,7 +261,7 @@ svg{display:block}
 .histchips .chip{height:32px;font-size:13.5px}
 .offbox{margin-top:10px}
 .rowbtn{display:flex;align-items:center;gap:10px;width:100%;padding:14px 0;color:var(--accent);font-weight:600;font-size:15px;border-bottom:1px solid var(--line)}
-.rowbtn svg{width:18px;height:18px}
+.rowbtn svg{width:18px;height:18px;flex:none}
 .status{font-size:14px;color:var(--ink2);padding:14px 0}
 .barrow{display:flex;gap:10px;margin-top:10px}
 .barrow .inp{flex:1}
@@ -168,6 +280,53 @@ svg{display:block}
 .btn:disabled{opacity:.4}
 .btn.slim{height:48px}
 .stack{display:flex;flex-direction:column;gap:10px}
+
+
+/* ============ selective copy v1.1 ============ */
+.copy-picker-intro{margin:8px 0 14px;color:var(--ink2);font-size:13.5px;line-height:1.5}
+.copy-picker-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 8px}
+.copy-picker-tools .count{color:var(--ink2);font-size:13px;font-weight:600}
+.copy-picker-tools .links{display:flex;align-items:center;gap:16px}
+.copy-picker-tools button{color:var(--accent);font-size:13px;font-weight:600;padding:7px 0}
+.copy-list{border:1px solid var(--line);border-radius:16px;overflow:hidden;max-height:36vh;max-height:36dvh;overflow-y:auto;overscroll-behavior:contain;background:var(--bg)}
+.copy-meal-group{font-size:11px;font-weight:700;letter-spacing:.055em;text-transform:uppercase;color:var(--ink3);padding:10px 14px 4px}
+.copy-choice{display:flex;align-items:center;gap:12px;min-height:65px;padding:11px 12px;cursor:pointer;border-bottom:1px solid var(--line)}
+.copy-choice:last-child{border-bottom:0}
+.copy-choice:has(input:checked){background:color-mix(in srgb,var(--accent) 7%, var(--bg))}
+.copy-choice input{appearance:none;-webkit-appearance:none;border:1.5px solid var(--ink3);width:23px;height:23px;min-width:23px;border-radius:7px;background:var(--surface);position:relative;cursor:pointer}
+.copy-choice input:checked{background:var(--accent);border-color:var(--accent)}
+.copy-choice input:checked:after{content:'';position:absolute;left:7px;top:3px;width:6px;height:11px;border:solid var(--accent-ink);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.copy-choice input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.copy-choice .copy-desc{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
+.copy-choice .copy-name{font-size:14.5px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.copy-choice .copy-sub{font-size:12px;color:var(--ink3);line-height:1.35}
+.copy-choice .copy-cal{color:var(--ink2);font-size:13px;font-weight:600;white-space:nowrap}
+.copy-destination{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+.copy-destination label{display:block;min-width:0}
+.copy-destination label span{display:block;font-size:12.5px;color:var(--ink2);font-weight:600;margin-bottom:6px}
+.copy-destination .inp{min-width:0;height:46px;padding:0 10px;font-size:14px;background:var(--bg)}
+.copy-picker-footer{position:sticky;bottom:-20px;z-index:1;background:var(--surface);border-top:1px solid var(--line);margin:18px -20px -6px;padding:13px 20px calc(8px + env(safe-area-inset-bottom,0px))}
+.copy-picker-footer .btn{width:100%}
+.copy-picker-footer .copy-note{font-size:11.5px;color:var(--ink3);text-align:center;margin:9px 0 0;line-height:1.4}
+@media(max-width:360px){.copy-destination{grid-template-columns:1fr}.copy-list{max-height:31dvh}.copy-choice{padding:10px}}
+
+
+/* ============ selective copy v1.2 improvements ============ */
+.copy-meal-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--sunk);border-bottom:1px solid var(--line);padding:9px 13px;color:var(--ink2);font-size:12px;font-weight:700;letter-spacing:.035em}
+.copy-meal-bar small{font-size:11px;font-weight:500;color:var(--ink3);letter-spacing:0;margin-left:4px}
+.copy-meal-bar button{font-size:12px;font-weight:700;letter-spacing:0;color:var(--accent);min-height:30px;padding:4px 0}
+.copy-nutrition{min-height:40px;margin:10px 0 13px;padding:10px 12px;border-radius:12px;background:var(--sunk);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px 10px;font-size:12px;color:var(--ink2)}
+.copy-nutrition b{font-size:15px;color:var(--ink)}
+.copy-dest-heading{font-size:13px;font-weight:700;color:var(--ink);margin:12px 0 8px}
+.copy-quick-dates{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}
+.copy-quick-dates button{min-height:34px;padding:6px 12px;border:1px solid var(--line);border-radius:99px;color:var(--ink2);font-size:12px;font-weight:600;background:var(--bg)}
+.copy-quick-dates button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.copy-target-preview{font-size:12px;color:var(--ink2);margin:10px 0 3px;line-height:1.5}
+.copy-search{margin:0 0 7px}.copy-search .inp{height:42px;font-size:14px}
+.copy-filter-empty{font-size:13px;color:var(--ink2);padding:10px 0}
+.copy-choice[hidden],.copy-meal-bar[hidden]{display:none!important}
+.copy-list{max-height:31dvh}
+@media(max-width:360px){.copy-list{max-height:27dvh}.copy-quick-dates button{padding:6px 10px}}
 
 /* ============ sheet ============ */
 #sheet{position:fixed;inset:0;z-index:50}
@@ -229,12 +388,54 @@ svg{display:block}
 .ing-kcal{font-size:14px;color:var(--ink2);min-width:46px;text-align:right}
 .ing-fixed{grid-column:1/3;font-size:13px;color:var(--ink3)}
 .sec-row{display:flex;justify-content:space-between;align-items:baseline}
+.ta{height:auto;min-height:96px;padding:12px 14px;line-height:1.4;resize:vertical;display:block}
+.ai-raw{grid-column:1/-1;font-size:13px;color:var(--ink3);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.ai-alt{grid-column:1/-1}
+.aiimg{display:block;width:100%;max-height:240px;object-fit:cover;border-radius:14px;margin-top:12px}
+.sizerow{display:flex;gap:8px}
+.sizerow .inp:last-child{width:86px;flex:none}
 .reader{border-radius:16px;overflow:hidden;background:#000;min-height:260px;margin-top:6px}
 .reader video{width:100%!important;height:auto!important;display:block}
 #toast span{overflow:hidden;text-overflow:ellipsis}
 .btn svg{width:20px;height:20px}
 @media (prefers-reduced-motion: reduce){ *{transition:none!important} }
 @media (min-width:700px){ .fab{bottom:88px} }
+/* ============ multi-item logging ============ */
+.batch-start{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:9px 12px}
+.batch-start svg{width:16px;height:16px}
+.batch-banner{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:13px 14px;margin:4px 0 14px}
+.batch-banner-title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.batch-banner-title strong{font-size:15px}
+.batch-banner p{margin-top:5px;color:var(--ink2);font-size:12.5px;line-height:1.5}
+.batch-draft{font-size:13px;color:var(--accent);background:var(--sunk);padding:10px 12px;border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 2px;width:100%;font-weight:600}
+.batch-draft svg{width:18px;height:18px}
+.app.batch-active{padding-bottom:calc(225px + env(safe-area-inset-bottom,0px))}
+.batch-tray{position:fixed;bottom:calc(67px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:18;max-width:560px;width:100%;padding:10px 18px 12px;background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -9px 22px rgba(0,0,0,.035)}
+.batch-tray-inner{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.batch-tray-summary{min-width:0}
+.batch-tray-summary b{display:block;font-size:15px;font-weight:600}
+.batch-tray-summary span{display:block;font-size:12px;color:var(--ink2);margin-top:2px}
+.batch-tray .btn{height:43px;font-size:14px;white-space:nowrap;padding:0 15px}
+.batch-item{padding:12px 0;border-bottom:1px solid var(--line)}
+.batch-item-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.batch-item-top strong{font-size:15px;font-weight:600}
+.batch-item-top span{font-size:13px;color:var(--ink2);white-space:nowrap}
+.batch-item-ctrl{display:grid;grid-template-columns:90px minmax(0,1fr) auto;gap:8px;align-items:center;margin-top:10px}
+.batch-item-ctrl .inp{height:41px;font-size:14px;padding:0 9px}
+.batch-item-ctrl .iconbtn{width:38px;height:38px;color:var(--over)}
+.batch-item-detail{font-size:12.5px;color:var(--ink3);margin-top:6px}
+.batch-review-total{padding:13px 0;border-top:1px solid var(--line);margin-top:8px}
+.batch-review-total b{font-size:23px;font-weight:600}
+.batch-review-total p{color:var(--ink2);font-size:12.5px}
+.batch-readonly-note{color:var(--ink3);font-size:12px;margin-top:8px}
+.batch-ready-tip{color:var(--ink2);font-size:12px;margin-top:8px}
+.scanner-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:10px 0}
+.scanner-options .btn{height:45px;font-size:13px;padding:0 8px;gap:7px}
+.scanner-options svg{width:18px;height:18px}
+.scanner-status{font-size:13px;line-height:1.5;min-height:22px;padding:8px 0}
+.reader{position:relative;min-height:245px}
+.scanner-guide{font-size:12px;color:var(--ink3);margin:-2px 0 9px}
+@media(max-width:350px){.batch-tray{padding:8px 12px 10px}.batch-tray .btn{padding:0 10px}.batch-item-ctrl{grid-template-columns:70px minmax(0,1fr) auto}.scanner-options .btn{font-size:12px}}
 </style>
 </head>
 <body>
@@ -279,6 +480,7 @@ function dayLabel(k) {
    core/nutrition — everything is per 100 g internally
    ===================================================================== */
 const OZ = 28.349523125;
+const FLOZ = 29.5735;
 const LB = 0.45359237;
 const MACROS = [
   { key: 'protein', label: 'Protein', short: 'P', color: 'var(--pro)', kcal: 4 },
@@ -310,9 +512,23 @@ const Nutrition = {
     for (const n of list) for (const k in n) o[k] = (o[k] || 0) + (n[k] || 0);
     return o;
   },
+  // A serving with id 'ml' stores the food's density (grams per ml). When it exists,
+  // volume units (ml, fl oz, cup, tbsp, tsp) are offered alongside weight.
   units(servings) {
-    return [...(servings || []).map(s => ({ id: s.id, label: s.label, grams: s.grams })),
-      { id: 'g', label: 'g', grams: 1 }, { id: 'oz', label: 'oz', grams: OZ }];
+    const sv = servings || [];
+    const d = sv.find(s => s.id === 'ml')?.grams;
+    const out = sv.filter(s => s.id !== 'ml').map(s => ({ id: s.id, label: s.label, grams: s.grams, ml: s.ml }));
+    out.push({ id: 'g', label: 'g', grams: 1, plain: true });
+    if (d) out.push({ id: 'ml', label: 'ml', grams: d, plain: true });
+    out.push({ id: 'oz', label: 'oz', grams: OZ, plain: true });
+    if (d) {
+      out.push({ id: 'floz', label: 'fl oz', grams: d * FLOZ, plain: true });
+      const has = re => sv.some(s => s.id !== 'ml' && re.test(s.label));
+      if (!has(/^cup$/)) out.push({ id: 'cup', label: 'cup', grams: 250 * d, ml: 250 });
+      if (!has(/^tbsp$/)) out.push({ id: 'tbsp', label: 'tbsp', grams: 15 * d, ml: 15 });
+      if (!has(/^tsp$/)) out.push({ id: 'tsp', label: 'tsp', grams: 5 * d, ml: 5 });
+    }
+    return out;
   },
   toGrams(qty, unitId, servings) {
     const u = Nutrition.units(servings).find(u => u.id === unitId) || { grams: 1 };
@@ -325,13 +541,13 @@ const Nutrition = {
   },
   macroKcal(n) { return (n.protein || 0) * 4 + (n.carbs || 0) * 4 + (n.fat || 0) * 9; },
 };
+const unitLabel = u => u.plain ? u.label : u.ml ? `${u.label} (${fmtG(u.ml)} ml)` : `${u.label} (${fmtG(u.grams)} g)`;
 function unitText(qty, unitId, servings) {
   const q = fmtQty(qty);
-  if (unitId === 'g') return `${q} g`;
-  if (unitId === 'oz') return `${q} oz`;
-  const s = (servings || []).find(s => s.id === unitId);
-  if (!s) return `${q} g`;
-  return `${q} ${s.label} (${fmtG(qty * s.grams)} g)`;
+  const u = Nutrition.units(servings).find(x => x.id === unitId);
+  if (!u) return `${q} g`;
+  if (u.plain) return `${q} ${u.label}`;
+  return `${q} ${u.label} (${u.ml ? fmtG(qty * u.ml) + ' ml' : fmtG(qty * u.grams) + ' g'})`;
 }
 
 /* =====================================================================
@@ -404,6 +620,9 @@ const CNF = (() => {
         .filter((x, i, a) => a.findIndex(y => y.label === x.label) === i)
         .sort((a, b) => (b.label === 'medium') - (a.label === 'medium'))
         .map((x, i) => ({ id: 's' + (i + 1), ...x }));
+      const vol = servings.find(x => x.label === 'cup') || servings.find(x => x.label === 'tbsp');
+      for (const x of servings) { if (x.label === 'cup') x.ml = 250; if (x.label === 'tbsp') x.ml = 15; }
+      if (vol) servings.push({ id: 'ml', label: 'ml', grams: vol.grams / vol.ml });
       const f = { id: 'cnf:' + id, name, brand: '', source: 'cnf', per100, servings };
       Object.defineProperty(f, '_h', { value: name.toLowerCase() });
       return f;
@@ -428,7 +647,7 @@ const blank = () => ({
   targets: [{ id: 'default', dow: null, kcal: 2000, protein: 140, carbs: 200, fat: 65 }],
   recipes: {}, recipeItems: {}, savedMeals: {}, savedMealItems: {}, // v0.2
   searchHistory: [],
-  settings: { theme: 'system', weightUnit: 'kg', usdaKey: 'CM9qt9PNcG7bmbMkPqNBpM8mm7QNrCNJB6cqTQ88' },
+  settings: { theme: 'system', weightUnit: 'kg', usdaKey: '', geminiKey: '', geminiModel: '' },
 });
 let db;
 function migrate(d) {
@@ -560,14 +779,19 @@ function logFood(food, qty, unitId, meal, date) {
   save();
   return l;
 }
-function copyLogs(list, toDate, toMeal = null) {
-  const now = Date.now();
+function copyLogsWithIds(list, toDate, toMeal = null) {
+  const now = Date.now(), ids = [];
   list.forEach((l, i) => {
-    const c = clone(l); c.id = uid(); c.date = toDate; c.createdAt = now + i; if (toMeal) c.meal = toMeal;
-    db.logs[c.id] = c;
+    const c = clone(l); c.id = uid(); c.date = toDate; c.createdAt = now + i;
+    if (toMeal) c.meal = toMeal;
+    db.logs[c.id] = c; ids.push(c.id);
   });
-  save();
-  return list.length;
+  if (ids.length) save();
+  return ids;
+}
+// Existing copy actions still receive the number of entries added.
+function copyLogs(list, toDate, toMeal = null) {
+  return copyLogsWithIds(list, toDate, toMeal).length;
 }
 function toggleFav(foodId) {
   if (db.favorites[foodId]) delete db.favorites[foodId];
@@ -585,7 +809,7 @@ function pushHistory(q) {
    ===================================================================== */
 const OFF = {
   base: 'https://world.openfoodfacts.org',
-  fields: 'code,product_name,product_name_en,brands,nutriments,serving_size,serving_quantity',
+  fields: 'code,product_name,product_name_en,brands,nutriments,serving_size,serving_quantity,quantity',
   map(p) {
     const n = p.nutriments || {};
     let kcal = n['energy-kcal_100g'];
@@ -598,7 +822,9 @@ const OFF = {
     if (n.sodium_100g != null) per100.sodium = +n.sodium_100g * 1000;
     const servings = [];
     const sq = parseFloat(p.serving_quantity);
-    if (sq > 0) servings.push({ id: 's1', label: 'serving', grams: sq });
+    const liquid = /\d\s*(ml|cl|l)\b/i.test(String(p.serving_size || '') + ' ' + String(p.quantity || ''));
+    if (sq > 0) servings.push({ id: 's1', label: 'serving', grams: sq, ...(liquid ? { ml: sq } : {}) });
+    if (liquid) servings.push({ id: 'ml', label: 'ml', grams: 1 });
     return { id: 'off:' + p.code, name, brand: String(p.brands || '').split(',')[0].trim(), source: 'off', per100, servings, barcode: String(p.code || '') };
   },
   async search(q) {
@@ -644,6 +870,8 @@ const USDA = {
       .filter(m => m.gramWeight > 0 && m.disseminationText && !/not specified/i.test(m.disseminationText) && (/^1\s/.test(m.disseminationText) || !/^\d/.test(m.disseminationText)))
       .sort((a, b) => (a.rank || 99) - (b.rank || 99)).slice(0, 4)
       .map((m, i) => ({ id: 's' + (i + 1), label: m.disseminationText.replace(/^1\s+/, '').slice(0, 40), grams: +m.gramWeight }));
+    const floz = servings.find(x => x.label === 'fl oz'), cup = servings.find(x => x.label === 'cup');
+    if (floz || cup) servings.push({ id: 'ml', label: 'ml', grams: floz ? floz.grams / FLOZ : cup.grams / 236.6 });
     return { id: 'usda:' + f.fdcId, name: String(f.description).trim(), brand: '', source: 'usda', per100, servings };
   },
   async search(q) {
@@ -658,15 +886,149 @@ const USDA = {
 };
 
 /* =====================================================================
+   sources/ai — Gemini reads the sentence; nutrition always comes from food databases
+   ===================================================================== */
+const AI_SYS = `You turn a person's description of what they ate into a JSON list of foods with amounts.
+Return only JSON in this shape: {"items":[{"text":"","food":"","search":"","amount":null,"unit":null,"unitLabel":""}]}
+Rules:
+- "text": the words from the description for this item.
+- "food": a clear generic name. Keep preparation (cooked, raw, fried, toasted, roasted) and any brand that was stated.
+- "search": 2 to 4 keywords to find it in a food database, most important first, such as "chicken breast roasted", "rice white cooked", "egg whole", "bread sourdough".
+- "amount": the number stated, converting words to numbers ("half" = 0.5, "a couple" = 2). Use null if no amount was given.
+- "unit": one of g, kg, oz, lb, ml, l, fl oz, cup, tbsp, tsp, piece, serving, or null.
+- For countable things use "piece" and put the noun or size in "unitLabel", such as "slice", "large", "medium", "egg".
+- Split combined items into separate foods. Ignore filler words.
+- Never estimate calories or nutrients.`;
+const AI_PHOTO_SYS = `You look at a photo of food someone is about to eat or just ate, and list each food you can see with an estimated amount, as JSON.
+Return only JSON in this shape: {"items":[{"text":"","food":"","search":"","amount":null,"unit":null,"unitLabel":""}]}
+Rules:
+- "text": a short description of what you see, such as "grilled chicken breast, about a third of the plate".
+- "food": a clear generic name with the likely preparation (grilled, fried, boiled, raw). Name a brand only if its packaging is readable.
+- "search": 2 to 4 keywords to find it in a food database, most important first.
+- Estimate "amount" in g for most foods, using typical portions and visual cues such as the plate (about 26 cm across), bowls, cups and cutlery.
+- Use "piece" with a "unitLabel" for countable things (egg, slice, cookie, medium apple). Use "ml" for drinks.
+- Include sauces, oils, dressings and toppings only if they are clearly visible.
+- If the person adds notes, trust the notes over what you see.
+- If there is no food in the photo, return {"items":[]}.
+- Never estimate calories or nutrients.`;
+const AI_LABEL_SYS = `You read a photo of a packaged food's Nutrition Facts table and copy the numbers exactly as printed, as JSON.
+Return only JSON in this shape: {"name":"","brand":"","servingName":"","servingAmount":null,"servingUnit":"g","servingGrams":null,"kcal":null,"protein":null,"carbs":null,"fat":null,"fiber":null,"sugar":null,"sodium":null}
+Rules:
+- Copy the values for ONE serving exactly as printed in the "Per ..." or "Amount per serving" column. Never calculate or estimate. If the table shows per serving and per 100 g, use per serving.
+- Canadian tables are bilingual (Fat / Lipides, Carbohydrate / Glucides, Fibre / Fibres, Sugars / Sucres, Protein / Protéines, Sodium). Ignore % Daily Value numbers.
+- "servingName": the household measure in English, such as "cup", "slice", "bar", "2 biscuits". Use "serving" if there is none.
+- "servingAmount" and "servingUnit": the metric amount of the serving, such as 250 and "ml" for "1 cup (250 mL)", or 30 and "g". If both grams and ml are printed, also put the grams in "servingGrams".
+- "carbs" is total carbohydrate. "sodium" is in mg; if only salt in g is shown, sodium = salt × 400.
+- "name" and "brand" only if readable in the photo, otherwise "".
+- Use null for anything you cannot read clearly. If there is no nutrition table in the photo, return {"error":"no label"}.`;
+function imageToJpeg(file, max = 1024) {
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const sc = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('image')); };
+    img.src = url;
+  });
+}
+const AI = {
+  base: 'https://generativelanguage.googleapis.com/v1beta',
+  fallback: ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest', 'gemini-2.5-flash'],
+  key: () => String(db.settings.geminiKey || '').trim(),
+  async err(r) { const e = new Error('HTTP ' + r.status); e.status = r.status; try { e.body = await r.text(); } catch (x) {} return e; },
+  async listModels() {
+    const r = await fetch(`${this.base}/models?pageSize=1000`, { headers: { 'x-goog-api-key': this.key() } });
+    if (!r.ok) throw await this.err(r);
+    const j = await r.json();
+    const score = n => { const v = parseFloat((n.match(/gemini-(\d+(?:\.\d+)?)/) || [])[1] || 0); return v * 10 - (/lite/.test(n) ? 3 : 0) - (/preview|exp/.test(n) ? 1 : 0); };
+    return (j.models || [])
+      .filter(m => (m.supportedGenerationMethods || []).includes('generateContent'))
+      .map(m => String(m.name).replace(/^models\//, ''))
+      .filter(n => /flash/.test(n) && !/image|tts|audio|live|embed|robot|computer|native/.test(n))
+      .sort((a, b) => score(b) - score(a));
+  },
+  async generate(model, sys, text) {
+    const r = await fetch(`${this.base}/models/${encodeURIComponent(model)}:generateContent`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': this.key() },
+      body: JSON.stringify({ systemInstruction: { parts: [{ text: sys }] }, contents: [{ role: 'user', parts: typeof text === 'string' ? [{ text }] : text }],
+        generationConfig: { temperature: 0, responseMimeType: 'application/json' } }),
+    });
+    if (!r.ok) throw await this.err(r);
+    const j = await r.json();
+    const out = (j.candidates?.[0]?.content?.parts || []).filter(p => !p.thought).map(p => p.text || '').join('');
+    return JSON.parse(out.replace(/```json|```/g, '').trim());
+  },
+  // Tries the last model that worked, then whatever this key can see, then known names.
+  async run(sys, text) {
+    if (!this.key()) { const e = new Error('nokey'); e.status = 0; throw e; }
+    let tried = new Set(), last = null, listed = false;
+    let queue = [db.settings.geminiModel].filter(Boolean);
+    while (true) {
+      if (!queue.length && !listed) {
+        listed = true;
+        try { queue = await this.listModels(); } catch (e) { last = e; queue = []; }
+        queue = [...queue, ...this.fallback];
+      }
+      const model = queue.shift();
+      if (!model) throw last || new Error('nomodel');
+      if (tried.has(model)) continue;
+      tried.add(model);
+      try {
+        const json = await this.generate(model, sys, text);
+        if (db.settings.geminiModel !== model) { db.settings.geminiModel = model; save(); }
+        return { model, json };
+      } catch (e) {
+        if (e.status === 429) throw e;
+        last = e;
+        if (model === db.settings.geminiModel) { db.settings.geminiModel = ''; save(); }
+      }
+    }
+  },
+  async parse(text) {
+    const { json } = await this.run(AI_SYS, text);
+    return (Array.isArray(json?.items) ? json.items : []).slice(0, 15);
+  },
+  async readLabel(dataUrl) {
+    const { json } = await this.run(AI_LABEL_SYS, [{ inlineData: { mimeType: 'image/jpeg', data: dataUrl.split(',')[1] } }, { text: 'Read this Nutrition Facts table.' }]);
+    if (!json || json.error) { const e = new Error('nolabel'); throw e; }
+    return json;
+  },
+  async parsePhoto(dataUrl, note) {
+    const parts = [{ inlineData: { mimeType: 'image/jpeg', data: dataUrl.split(',')[1] } },
+      { text: note ? `Notes from the person: ${note}` : 'List the foods in this photo.' }];
+    const { json } = await this.run(AI_PHOTO_SYS, parts);
+    return (Array.isArray(json?.items) ? json.items : []).slice(0, 15);
+  },
+  errorText(e) {
+    if (e.message === 'image') return "Couldn't open that photo. Try another one.";
+    if (e.message === 'nolabel') return "Couldn't find a Nutrition Facts table in that photo. Try again closer, flat and in good light.";
+    if (e.message === 'nokey') return 'Add your Gemini key in Settings, under AI food entry.';
+    if (e.status === 429) return "Gemini's free limit is used up for now. Try again later, or use search.";
+    if (e.status === 401 || e.status === 403) return 'Gemini rejected the key. Check it in Settings and tap Test connection.';
+    if (e instanceof SyntaxError) return "Gemini's reply didn't make sense. Try rewording, listing each food with its amount.";
+    return "Couldn't reach Gemini. Check your connection and try again.";
+  },
+};
+
+/* =====================================================================
    ui/icons
    ===================================================================== */
 const svg = (d, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}>${d}</svg>`;
 const I = {
   left: svg('<path d="M15 5l-7 7 7 7"/>'),
   right: svg('<path d="M9 5l7 7-7 7"/>'),
+  calendar: svg('<rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/><path d="M7.5 3.5v4M16.5 3.5v4M3.5 10h17"/>'),
+  down: svg('<path d="m6 9 6 6 6-6"/>'),
+  swap: svg('<path d="M4 8h16m-4-4 4 4-4 4M20 16H4m4-4-4 4 4 4"/>'),
   plus: svg('<path d="M12 5v14M5 12h14"/>'),
   x: svg('<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>'),
+  camera: svg('<path d="M4 8.5h3.2l1.6-2.2h6.4l1.6 2.2H20V19H4z"/><circle cx="12" cy="13.2" r="3.4"/>'),
   scan: svg('<path d="M4 8.5V5h3.5M16.5 5H20v3.5M20 15.5V19h-3.5M7.5 19H4v-3.5"/><path d="M8 9v6M11 9v6M13.5 9v6M16 9v6"/>'),
+  flash: svg('<path d="M12.5 2 5 13h6l-1 9 9-12h-6z"/>'),
   more: svg('<circle cx="5" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="19" cy="12" r="1.2" fill="currentColor"/>'),
   search: svg('<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>'),
   star: svg('<path d="M12 3.8l2.5 5.1 5.6.8-4 3.9.9 5.6-5-2.6-5 2.6.9-5.6-4-3.9 5.6-.8z"/>'),
@@ -682,8 +1044,8 @@ const I = {
    ===================================================================== */
 const defaultMeal = () => { const h = new Date().getHours(); return h < 11 ? 'breakfast' : h < 16 ? 'lunch' : h < 21 ? 'dinner' : 'snacks'; };
 const ui = {
-  tab: 'today', date: todayKey(), meal: defaultMeal(), foodTab: 'recent', query: '',
-  online: { q: '', usda: null, off: null }, offMap: {}, lastToday: todayKey(),
+  batch: { active: false, date: null, meal: null, items: [] }, tab: 'today', date: todayKey(), calorieScope: 'day', calorieMode: 'left', libraryQuery: '', libraryFilter: 'all', progressMetric: 'kcal', progressRange: 14, calendarMonth: null, calendarJumpVisible: false, lastCalendarSwipe: 0, meal: defaultMeal(), foodTab: 'recent', query: '',
+  online: { q: '', usda: null, off: null }, offMap: {}, ai: { text: '', items: [], state: 'idle', msg: '', photo: null }, lastToday: todayKey(),
 };
 const TABS = [
   { id: 'today', label: 'Today', icon: I.today },
@@ -697,6 +1059,8 @@ function renderNav() {
 }
 function render() {
   const v = $('#view'); v.oninput = null;
+  v.classList.toggle('batch-active', ui.tab === 'food' && ui.batch.active);
+  renderBatchTray();
   ({ today: renderToday, food: renderFood, progress: renderProgress, library: renderLibrary, settings: renderSettings })[ui.tab](v);
   renderNav();
   $('#fab').hidden = ui.tab !== 'today';
@@ -745,22 +1109,154 @@ const setPressed = (root, attr, val) => root.querySelectorAll(`[data-${attr}]`).
 const mealChips = (sel, attr = 'm') => MEALS.map(m => `<button type="button" class="chip" data-s="meal" data-${attr}="${m.id}" aria-pressed="${sel === m.id}">${m.label}</button>`).join('');
 
 /* =====================================================================
+   features/today — calendar date picker
+   ===================================================================== */
+function dailyLogSummary() {
+  const byDay = Repo.logsByDate();
+  const summaries = {};
+  for (const [key, entries] of Object.entries(byDay)) {
+    if (!entries.length) continue;
+    summaries[key] = Nutrition.sum(entries.map(logNutrition));
+  }
+  return summaries;
+}
+function renderWeekStrip(day, summary) {
+  const selected = parseKey(day), today = todayKey();
+  const mon = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
+  mon.setDate(mon.getDate() - (mon.getDay() + 6) % 7);
+  return `<div class="week-strip" role="group" aria-label="Choose a day this week">${Array.from({length: 7}, (_, i) => {
+    const d = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + i);
+    const key = dateKey(d), tot = summary[key];
+    const over = !!tot && tot.kcal > Repo.targetFor(key).kcal;
+    const classes = ['week-day', key === day && 'week-selected', key === today && 'week-current'].filter(Boolean).join(' ');
+    const full = d.toLocaleDateString('en-CA', {weekday:'long',month:'long',day:'numeric',year:'numeric'});
+    const info = tot ? `, ${fmtN(tot.kcal)} kcal logged${over ? ', above calorie target' : ''}` : ', no food logged';
+    return `<button type="button" class="${classes}" data-action="week-pick" data-date="${key}" aria-label="${esc(full + info)}" aria-pressed="${key === day}">
+      <span class="week-name">${['M','T','W','T','F','S','S'][i]}</span><span>${d.getDate()}</span><span class="${tot ? 'week-dot' + (over ? ' over' : '') : 'week-blank'}" aria-hidden="true"></span>
+    </button>`;
+  }).join('')}</div>`;
+}
+function renderCalendar() {
+  const root = $('#calendar-content');
+  if (!root) return;
+  const monthDate = parseKey(ui.calendarMonth || ui.date);
+  const year = monthDate.getFullYear(), month = monthDate.getMonth();
+  const firstOffset = (new Date(year, month, 1).getDay() + 6) % 7; // Monday first
+  const count = Math.ceil((firstOffset + new Date(year, month + 1, 0).getDate()) / 7) * 7;
+  const summary = dailyLogSummary();
+  const today = todayKey();
+  const days = Array.from({ length: count }, (_, i) => {
+    const d = new Date(year, month, i - firstOffset + 1);
+    const key = dateKey(d), info = summary[key];
+    const selected = key === ui.date, current = key === today, outside = d.getMonth() !== month;
+    const over = !!info && info.kcal > Repo.targetFor(key).kcal;
+    const pct = info ? Math.min(100, Math.max(5, info.kcal / Math.max(1, Repo.targetFor(key).kcal) * 100)) : 0;
+    const classes = ['calendar-day', selected && 'calendar-selected', current && 'calendar-current', outside && 'calendar-outside'].filter(Boolean).join(' ');
+    const friendly = d.toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    const aria = friendly + (info ? `, ${fmtN(info.kcal)} of ${fmtN(Repo.targetFor(key).kcal)} kcal logged, ${fmtN(info.protein)} grams protein` : ', no food logged');
+    return `<button type="button" class="${classes}" data-action="calendar-pick" data-date="${key}" aria-label="${esc(aria)}" aria-pressed="${selected}" ${current ? 'aria-current="date"' : ''}>
+      <span>${d.getDate()}</span>${info ? `<span class="calendar-progress${over ? ' over' : ''}" aria-hidden="true"><span style="width:${pct.toFixed(1)}%"></span></span>` : '<span class="calendar-blank" aria-hidden="true"></span>'}
+    </button>`;
+  }).join('');
+  const prefix = `${year}-${pad(month + 1)}-`;
+  const monthDays = Object.keys(summary).filter(key => key.startsWith(prefix));
+  const calorieAvg = monthDays.length ? monthDays.reduce((sum, key) => sum + summary[key].kcal, 0) / monthDays.length : 0;
+  const proteinAvg = monthDays.length ? monthDays.reduce((sum, key) => sum + summary[key].protein, 0) / monthDays.length : 0;
+  const toggleJump = ui.calendarJumpVisible;
+  root.innerHTML = `
+    <div class="calendar-header">
+      <h2 class="calendar-title" id="calendar-heading">${esc(monthDate.toLocaleDateString('en-CA', { month: 'long', year: 'numeric' }))}</h2>
+      <div class="calendar-controls">
+        <button type="button" class="calendar-jump-toggle" data-action="calendar-toggle-jump" aria-expanded="${toggleJump}" aria-controls="calendar-jump-panel">Jump</button>
+        <button type="button" class="iconbtn sm" data-action="calendar-prev" aria-label="Previous month">${I.left}</button>
+        <button type="button" class="iconbtn sm" data-action="calendar-next" aria-label="Next month">${I.right}</button>
+      </div>
+    </div>
+    <div id="calendar-jump-panel" class="calendar-jump" ${toggleJump ? '' : 'hidden'}>
+      <label for="calendar-jump-date">Choose any date</label>
+      <div class="calendar-jump-row"><input class="inp" type="date" id="calendar-jump-date" value="${esc(ui.date)}"><button class="btn" type="button" data-action="calendar-jump-go">Open day</button></div>
+    </div>
+    <div class="calendar-weekdays" aria-hidden="true">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(w => `<span>${w}</span>`).join('')}</div>
+    <div class="calendar-grid" aria-labelledby="calendar-heading">${days}</div>
+    <div class="calendar-stats" aria-label="Monthly food log summary">
+      <div class="cstat"><b>${monthDays.length}</b><span>Days logged</span></div>
+      <div class="cstat"><b>${monthDays.length ? fmtN(calorieAvg) : '—'}</b><span>Avg kcal</span></div>
+      <div class="cstat"><b>${monthDays.length ? fmtN(proteinAvg) + ' g' : '—'}</b><span>Avg protein</span></div>
+    </div>
+    <p class="calendar-stats-note">Averages use days with entries only; partially logged days may lower them.</p>
+    <div class="calendar-footer"><div class="calendar-legend"><span class="calendar-legend-item"><span class="calendar-progress" aria-hidden="true"><span style="width:65%"></span></span> Calories logged</span><span class="calendar-legend-item"><span class="calendar-progress over" aria-hidden="true"><span style="width:100%"></span></span> Over target</span></div>
+      <button type="button" class="calendar-today" data-action="calendar-today">Go to today</button>
+    </div>`;
+}
+function openCalendar() {
+  const d = parseKey(ui.date);
+  ui.calendarMonth = dateKey(new Date(d.getFullYear(), d.getMonth(), 1));
+  ui.calendarJumpVisible = false;
+  openSheet('<div id="calendar-content"></div>', () => renderCalendar());
+}
+function changeCalendarMonth(n) {
+  const d = parseKey(ui.calendarMonth || ui.date);
+  ui.calendarMonth = dateKey(new Date(d.getFullYear(), d.getMonth() + n, 1));
+  renderCalendar();
+}
+function chooseCalendarDay(key) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(key)) return;
+  const d = parseKey(key);
+  if (Number.isNaN(d.getTime()) || dateKey(d) !== key) return;
+  ui.date = key;
+  closeSheet();
+  render();
+}
+function chooseWeekDay(key) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(key) || dateKey(parseKey(key)) !== key) return;
+  ui.date = key;
+  render();
+}
+function jumpToCalendarDate() {
+  const date = $('#calendar-jump-date')?.value || '';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || dateKey(parseKey(date)) !== date) { toast('Choose a valid date'); return; }
+  chooseCalendarDay(date);
+}
+/* =====================================================================
    features/today
    ===================================================================== */
+// Mon–Sun, calculated for the selected date, using each day's target (including custom weekday targets).
+// An unlogged day is unknown intake, not a confirmed zero; the remaining budget is provisional.
+function weeklyCalorieSummary(selectedDate) {
+  const start = parseKey(selectedDate);
+  start.setDate(start.getDate() - (start.getDay() + 6) % 7);
+  const dayKeys = Array.from({length: 7}, (_, i) => dateKey(new Date(start.getFullYear(), start.getMonth(), start.getDate() + i)));
+  const target = dayKeys.reduce((s, key) => s + (Number(Repo.targetFor(key).kcal) || 0), 0);
+  const byDate = Repo.logsByDate();
+  const entries = dayKeys.flatMap(key => byDate[key] || []);
+  const total = Nutrition.sum(entries.map(logNutrition));
+  const loggedDays = dayKeys.filter(key => (byDate[key] || []).length > 0).length;
+  const startLabel = parseKey(dayKeys[0]).toLocaleDateString('en-CA', {month:'short',day:'numeric'});
+  const endLabel = parseKey(dayKeys[6]).toLocaleDateString('en-CA', {month:'short',day:'numeric'});
+  return {target, total, loggedDays, start:dayKeys[0], end:dayKeys[6], label:`${startLabel} – ${endLabel}`};
+}
 function renderToday(v) {
   const d = ui.date, logs = Repo.logsFor(d), t = Repo.targetFor(d);
   const tot = Nutrition.sum(logs.map(logNutrition));
-  const rem = t.kcal - tot.kcal, over = rem < 0;
-  const max = Math.max(t.kcal, tot.kcal, 1);
-  const mk = MACROS.map(m => ({ ...m, k: (tot[m.key] || 0) * m.kcal }));
+  const week = ui.calorieScope === 'week' ? weeklyCalorieSummary(d) : null;
+  const shownTot = week ? week.total : tot;
+  const targetKcal = week ? week.target : (Number(t.kcal) || 0);
+  const remaining = targetKcal - shownTot.kcal;
+  const over = remaining < 0;
+  const isEaten = ui.calorieMode === 'eaten';
+  const displayCalories = isEaten ? shownTot.kcal : Math.abs(remaining);
+  const displayUnit = isEaten ? 'kcal eaten' : (over ? 'kcal over' : 'kcal left');
+  const nextMode = isEaten ? 'left' : 'eaten';
+  const max = Math.max(targetKcal, shownTot.kcal, 1);
+  const mk = MACROS.map(m => ({ ...m, k: (shownTot[m.key] || 0) * m.kcal }));
   const mkSum = mk.reduce((a, b) => a + b.k, 0);
   let segs = '';
-  if (tot.kcal > 0) {
+  if (shownTot.kcal > 0) {
     segs = mkSum > 0
-      ? mk.filter(m => m.k > 0).map(m => `<span style="width:${(m.k / mkSum) * (tot.kcal / max) * 100}%;background:${m.color}"></span>`).join('')
-      : `<span style="width:${tot.kcal / max * 100}%;background:var(--ink2)"></span>`;
+      ? mk.filter(m => m.k > 0).map(m => `<span style="width:${(m.k / mkSum) * (shownTot.kcal / max) * 100}%;background:${m.color}"></span>`).join('')
+      : `<span style="width:${shownTot.kcal / max * 100}%;background:var(--ink2)"></span>`;
   }
-  const tick = over ? `<i class="tick" style="left:${t.kcal / max * 100}%"></i>` : '';
+  const tick = over ? `<i class="tick" style="left:${targetKcal / max * 100}%"></i>` : '';
 
   const macros = MACROS.map(m => {
     const c = tot[m.key] || 0, tg = t[m.key] || 0, left = tg - c;
@@ -792,20 +1288,43 @@ function renderToday(v) {
   v.innerHTML = `
     <header class="dayhead">
       <button class="iconbtn" data-action="day-prev" aria-label="Previous day">${I.left}</button>
-      <button class="daylabel" data-action="day-today">${esc(dayLabel(d))}</button>
+      <button class="daylabel" data-action="calendar-open" aria-label="Open calendar, selected ${esc(parseKey(d).toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }))}">
+        ${I.calendar}<span>${esc(dayLabel(d))}</span><span class="day-chevron">${I.down}</span>
+      </button>
       <div class="dayright">
         <button class="iconbtn" data-action="day-next" aria-label="Next day">${I.right}</button>
         <button class="iconbtn" data-action="day-menu" aria-label="Day options">${I.more}</button>
       </div>
     </header>
-    <section class="hero" aria-label="Calories">
-      <div class="hero-num ${over ? 'over' : ''}">${fmtN(Math.abs(rem))}<span class="hero-unit">${over ? 'kcal over' : 'kcal left'}</span></div>
-      <div class="fuel" role="img" aria-label="${fmtN(tot.kcal)} of ${fmtN(t.kcal)} calories eaten">${segs}${tick}</div>
-      <div class="hero-meta"><span><b>${fmtN(tot.kcal)}</b> eaten</span><span>${t.dow != null ? DOW[t.dow] + ' target' : 'Target'} <b>${fmtN(t.kcal)}</b></span></div>
+    ${ui.batch.active && ui.batch.items.length ? `<button class="batch-draft" data-action="batch-return">${I.plus}<span>Draft log · ${ui.batch.items.length} ${ui.batch.items.length === 1 ? 'item' : 'items'} waiting</span>${I.right}</button>` : ''}
+    ${renderWeekStrip(d, dailyLogSummary())}
+    <section class="hero" aria-label="Calorie summary">
+      <div class="hero-heading">
+        <span class="hero-title">Calories</span>
+        <div class="calorie-scope" role="group" aria-label="Calorie summary period">
+          <button type="button" data-action="calorie-scope" data-scope="day" aria-pressed="${ui.calorieScope === 'day'}">Day</button>
+          <button type="button" data-action="calorie-scope" data-scope="week" aria-pressed="${ui.calorieScope === 'week'}">Week</button>
+        </div>
+      </div>
+      ${week ? `<div class="hero-period">${week.label} · Monday–Sunday</div>` : ''}
+      <button type="button" class="hero-switch" data-action="calorie-mode" aria-label="${ui.calorieScope === 'week' ? 'Weekly' : 'Daily'} calories: ${fmtN(displayCalories)} ${displayUnit}. Tap to show calories ${nextMode}." title="Tap to show calories ${nextMode}">
+        <span class="hero-num ${!isEaten && over ? 'over' : ''}" aria-live="polite">${fmtN(displayCalories)}<span class="hero-unit">${displayUnit}</span></span>
+        <span class="hero-tap-hint">${I.swap} Tap to see calories ${nextMode}</span>
+      </button>
+      <div class="fuel" role="img" aria-label="${ui.calorieScope === 'week' ? 'Week' : 'Day'}: ${fmtN(shownTot.kcal)} of ${fmtN(targetKcal)} calories logged">${segs}${tick}</div>
+      <div class="hero-meta"><span><b>${fmtN(isEaten ? Math.abs(remaining) : shownTot.kcal)}</b> ${isEaten ? (over ? 'over' : 'left') : 'eaten'}</span><span>${week ? 'Week target' : (t.dow != null ? DOW[t.dow] + ' target' : 'Target')} <b>${fmtN(targetKcal)}</b></span></div>
+      ${week ? `<p class="hero-week-note">${week.loggedDays} of 7 days logged. Weekly calories left = full-week target minus recorded intake; missing days aren't assumed to be truly zero.</p>` : ''}
     </section>
-    <section class="macros" aria-label="Macros">${macros}</section>
-    ${meals}
+    ${week ? `<p class="hero-macros-title">${esc(dayLabel(d))} · Daily macros & food diary</p>` : ''}
+    <section class="macros" aria-label="${week ? 'Selected day macros' : 'Macros'}">${macros}</section>
+    <div class="quicktools" role="group" aria-label="Quick logging shortcuts">
+      <button class="quicktool" data-action="quick-route" data-view="recent">${I.today}Recent foods</button>
+      <button class="quicktool" data-action="quick-route" data-view="meals">${I.library}Saved meals</button>
+      <button class="quicktool" data-action="quick-route" data-view="quick">${I.plus}Quick add</button>
+    </div>
+    ${d !== todayKey() ? `<button class="return-today" data-action="return-today">${I.left} Back to today</button>` : ''}
     ${!logs.length && yesterdayHas ? `<div class="copyhint"><button class="btn ghost" data-action="copy-yesterday">Copy ${d === todayKey() ? "yesterday's" : "previous day's"} food</button></div>` : ''}
+    ${meals}
   `;
 }
 function entryRow(l) {
@@ -832,24 +1351,175 @@ function copyYesterday() {
   render();
   toast(`Copied ${added} ${added === 1 ? 'item' : 'items'}`, { label: 'Undo', fn: () => { ids.forEach(i => delete db.logs[i]); save(); render(); } });
 }
+/* ---------- selective food copying: intentionally opt-in, with live nutrition feedback ---------- */
+function openSelectiveCopy({fromDate, mealId = null, toDate = ui.date} = {}) {
+  const srcDate = fromDate || ui.date;
+  const candidates = Repo.logsFor(srcDate).filter(l => !mealId || l.meal === mealId);
+  if (!candidates.length) { toast(`Nothing to copy from ${dayLabel(srcDate)}`); return; }
+  // Identity is by log ID, never by food name: two cereal servings remain separate.
+  const selected = new Set();
+  const groups = mealId ? [mealId] : MEALS.map(m => m.id);
+  const rows = groups.map(m => {
+    const items = candidates.filter(l => l.meal === m);
+    if (!items.length) return '';
+    return `<div class="copy-meal-bar"><span>${esc(mealLabel(m))} <small>${items.length}</small></span>
+      <button type="button" data-s="copy-group" data-meal="${esc(m)}" aria-label="Select all ${esc(mealLabel(m))}">Select meal</button></div>${items.map(l => {
+      const n = logNutrition(l);
+      const amount = l.kind === 'quick' ? 'Quick add' : unitText(l.qty, l.unitId, l.snap?.servings || []);
+      return `<label class="copy-choice"><input type="checkbox" class="copy-check" data-id="${esc(l.id)}" aria-label="Copy ${esc(logName(l))}">
+        <span class="copy-desc"><span class="copy-name">${esc(logName(l))}</span><span class="copy-sub">${esc(amount)}</span></span>
+        <span class="copy-cal">${fmtN(n.kcal)} kcal</span></label>`;
+    }).join('')}`;
+  }).join('');
+  const header = mealId ? `${mealLabel(mealId)} · ${dayLabel(srcDate)}` : dayLabel(srcDate);
+  const dayAfter = addDays(srcDate, 1);
+  const today = todayKey(), tomorrow = addDays(today, 1);
+  const presets = [ {name:'Today', date:today}, {name:'Tomorrow', date:tomorrow} ];
+  if (!presets.some(x => x.date === dayAfter)) presets.push({name:'Day after source', date:dayAfter});
+  openSheet(`<h2 class="s-title">Select foods to copy</h2>
+    <p class="copy-picker-intro">From ${esc(header)}. Choose only what you want to copy.</p>
+    ${candidates.length > 8 ? `<div class="copy-search"><input class="inp" id="copy-search" type="search" placeholder="Find food in this day" aria-label="Filter foods to copy"></div>` : ''}
+    <div class="copy-picker-tools"><span class="count" id="copy-selected-count" aria-live="polite"></span>
+      <div class="links"><button type="button" data-s="copy-all">Select all</button><button type="button" data-s="copy-none">Clear</button></div></div>
+    <div class="copy-list" role="group" aria-label="Foods available to copy">${rows}</div>
+    <p class="copy-filter-empty" id="copy-filter-empty" hidden>No matching foods. Try another search.</p>
+    <div class="copy-nutrition" id="copy-selected-nutrition" aria-live="polite"></div>
+    <div class="copy-dest-heading">Copy to</div>
+    <div class="copy-quick-dates" role="group" aria-label="Quick destination dates">${presets.map(q => `<button type="button" data-s="copy-date" data-date="${q.date}" aria-pressed="false">${q.name}</button>`).join('')}</div>
+    <div class="copy-destination">
+      <label><span>Date</span><input class="inp" id="copy-to-date" type="date" value="${esc(toDate)}"></label>
+      <label><span>Meal</span><select class="inp" id="copy-to-meal">
+        <option value="">Keep original meals</option>${MEALS.map(m => `<option value="${m.id}">${esc(m.label)}</option>`).join('')}
+      </select></label>
+    </div>
+    <p class="copy-target-preview" id="copy-target-preview" aria-live="polite"></p>
+    <div class="copy-picker-footer">
+      <button type="button" class="btn block" data-s="copy-submit" id="copy-submit"></button>
+      <p class="copy-note">Original entries stay unchanged. Copies remain individually editable.</p>
+    </div>`, root => {
+      const boxes = [...root.querySelectorAll('.copy-check')];
+      const count = $('#copy-selected-count', root), submit = $('#copy-submit', root);
+      const destInput = $('#copy-to-date', root), mealInput = $('#copy-to-meal', root);
+      const selection = () => candidates.filter(l => selected.has(l.id));
+      const sync = () => {
+        const foods = selection();
+        const total = Nutrition.sum(foods.map(logNutrition));
+        count.textContent = `${foods.length} of ${candidates.length} selected`;
+        $('#copy-selected-nutrition', root).innerHTML = foods.length
+          ? `<b>${fmtN(total.kcal)} kcal</b><span>P ${fmtN(total.protein)}g</span><span>C ${fmtN(total.carbs)}g</span><span>F ${fmtN(total.fat)}g</span>`
+          : `<span>Choose a food or tap “Select meal” above.</span>`;
+        submit.textContent = foods.length ? `Copy ${foods.length} ${foods.length === 1 ? 'food' : 'foods'}` : 'Select foods to copy';
+        submit.disabled = !foods.length;
+        root.querySelectorAll('[data-s="copy-group"]').forEach(btn => {
+          const inGroup = candidates.filter(l => l.meal === btn.dataset.meal);
+          const all = inGroup.every(l => selected.has(l.id));
+          btn.textContent = all ? 'Clear meal' : 'Select meal';
+          btn.setAttribute('aria-label', `${all ? 'Clear' : 'Select all'} ${mealLabel(btn.dataset.meal)}`);
+        });
+        root.querySelectorAll('[data-s="copy-date"]').forEach(btn => btn.setAttribute('aria-pressed', String(btn.dataset.date === destInput.value)));
+        const date = destInput.value;
+        const valid = /^\d{4}-\d{2}-\d{2}$/.test(date) && dateKey(parseKey(date)) === date;
+        const dateText = valid ? dayLabel(date) : 'Choose a valid date';
+        const mealText = mealInput.value ? mealLabel(mealInput.value) : 'their original meals';
+        $('#copy-target-preview',root).textContent = `${foods.length || 'No'} ${foods.length === 1 ? 'food' : 'foods'} → ${dateText} · ${mealText}`;
+      };
+      root.addEventListener('change', e => {
+        const box = e.target.closest('.copy-check');
+        if (box) {
+          if (box.checked) selected.add(box.dataset.id); else selected.delete(box.dataset.id);
+        }
+        if (box || e.target === destInput || e.target === mealInput) sync();
+      });
+      destInput.addEventListener('input', sync);
+      const search = $('#copy-search', root);
+      search?.addEventListener('input', () => {
+        const q = search.value.trim().toLowerCase();
+        let visible = 0;
+        root.querySelectorAll('.copy-choice').forEach(row => {
+          const show = row.textContent.toLowerCase().includes(q);
+          row.hidden = !show;
+          if (show) visible++;
+        });
+        root.querySelectorAll('.copy-meal-bar').forEach(bar => {
+          let node = bar.nextElementSibling, any = false;
+          while (node && !node.classList.contains('copy-meal-bar')) {
+            if (!node.hidden) any = true;
+            node = node.nextElementSibling;
+          }
+          bar.hidden = !any;
+        });
+        $('#copy-filter-empty',root).hidden = visible !== 0;
+      });
+      root.addEventListener('click', e => {
+        const btn = e.target.closest('[data-s]'); if (!btn) return;
+        const action = btn.dataset.s;
+        if (action === 'copy-date') { destInput.value = btn.dataset.date; sync(); return; }
+        if (action === 'copy-group') {
+          const items = candidates.filter(l => l.meal === btn.dataset.meal);
+          const check = !items.every(l => selected.has(l.id));
+          items.forEach(l => { if (check) selected.add(l.id); else selected.delete(l.id); });
+          boxes.forEach(box => { box.checked = selected.has(box.dataset.id); });
+          sync(); return;
+        }
+        if (action === 'copy-all' || action === 'copy-none') {
+          boxes.forEach(box => { box.checked = action === 'copy-all'; });
+          selected.clear(); if (action === 'copy-all') candidates.forEach(l => selected.add(l.id));
+          sync(); return;
+        }
+        if (action !== 'copy-submit') return;
+        const dest = destInput.value;
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(dest) || dateKey(parseKey(dest)) !== dest) {
+          toast('Choose a valid destination date'); return;
+        }
+        const meal = mealInput.value || null;
+        const chosen = selection().filter(l => db.logs[l.id]);
+        if (!chosen.length) { toast('Select at least one food'); return; }
+        if (dest === srcDate && !confirm('Copy into the same date? These foods will be added again, not moved.')) return;
+        const ids = copyLogsWithIds(chosen, dest, meal);
+        if (!ids.length) return;
+        ui.date = dest; closeSheet(); go('today');
+        toast(`Copied ${ids.length} ${ids.length === 1 ? 'food' : 'foods'} to ${dayLabel(dest)}`, {
+          label:'Undo', fn:() => { ids.forEach(id => delete db.logs[id]); save(); render(); }
+        });
+      });
+      sync();
+    });
+}
+
+// Gives older one-tap “Copy all” actions the same Undo guarantee as selected copying.
+function copyAllWithUndo(list, toDate, toMeal = null, message = null) {
+  const ids = copyLogsWithIds(list, toDate, toMeal);
+  if (!ids.length) { toast('Nothing to copy'); return; }
+  closeSheet(); render();
+  toast(message || `Copied ${ids.length} ${ids.length === 1 ? 'food' : 'foods'}`, {
+    label: 'Undo', fn: () => { ids.forEach(id => delete db.logs[id]); save(); render(); }
+  });
+}
+
 function openDayMenu() {
   openSheet(`
     <h2 class="s-title">${esc(dayLabel(ui.date))}</h2>
     <ul class="menu" style="margin-top:10px">
-      <li><button data-s="yday">Copy previous day's food here</button></li>
+      <li><button data-s="yday">Copy all from previous day</button></li>
+      <li><button data-s="pick-prev">Select foods from previous day</button></li>
+      ${Repo.logsFor(ui.date).length ? `<li><button data-s="pick-today">Select foods from this day to copy elsewhere</button></li>` : ''}
     </ul>
     <p class="s-label">Copy food from another date</p>
-    <div class="barrow"><input class="inp" type="date" id="cd" value="${addDays(ui.date, -1)}"><button class="btn slim" data-s="from">Copy</button></div>
+    <div class="barrow"><input class="inp" type="date" id="cd" value="${addDays(ui.date, -1)}"><button class="btn slim" data-s="from">Copy all</button></div>
+    <button class="rowbtn" data-s="pick-from" style="border:0;padding-top:10px">${I.plus}Select specific foods from that date</button>
     ${Repo.logsFor(ui.date).length ? `<ul class="menu" style="margin-top:14px"><li><button class="danger" data-s="clear">Clear this day</button></li></ul>` : ''}
   `, root => root.addEventListener('click', e => {
     const s = e.target.closest('[data-s]')?.dataset.s;
     if (s === 'yday') { closeSheet(); copyYesterday(); }
+    if (s === 'pick-prev') { openSelectiveCopy({fromDate:addDays(ui.date,-1),toDate:ui.date}); }
+    if (s === 'pick-today') { openSelectiveCopy({fromDate:ui.date,toDate:addDays(ui.date,1)}); }
+    if (s === 'pick-from') { const from = $('#cd',root)?.value; if (from) openSelectiveCopy({fromDate:from,toDate:ui.date}); }
     if (s === 'from') {
       const from = $('#cd', root).value; if (!from) return;
       const src = Repo.logsFor(from);
       closeSheet();
       if (!src.length) { toast(`Nothing logged on ${dayLabel(from)}`); return; }
-      copyLogs(src, ui.date); render(); toast(`Copied ${src.length} from ${dayLabel(from)}`);
+      copyAllWithUndo(src, ui.date, null, `Copied ${src.length} from ${dayLabel(from)}`);
     }
     if (s === 'clear') {
       const removed = Repo.logsFor(ui.date); removed.forEach(l => delete db.logs[l.id]); save(); closeSheet(); render();
@@ -863,20 +1533,22 @@ function openMealMenu(mealId) {
   openSheet(`
     <h2 class="s-title">${mealLabel(mealId)}</h2>
     <ul class="menu" style="margin-top:10px">
-      ${prev.length ? `<li><button data-s="again">Log previous day's ${mealLabel(mealId).toLowerCase()} again <span style="color:var(--ink3)">${fmtN(Nutrition.sum(prev.map(logNutrition)).kcal)} kcal</span></button></li>` : ''}
-      ${ls.length ? `<li><button data-s="savemeal">Save as a meal <span style="color:var(--ink3)">log it again in one tap</span></button></li><li><button data-s="dup">Copy to another meal</button></li>` : ''}
+      ${prev.length ? `<li><button data-s="again">Log all of previous day's ${mealLabel(mealId).toLowerCase()} <span style="color:var(--ink3)">${fmtN(Nutrition.sum(prev.map(logNutrition)).kcal)} kcal</span></button></li><li><button data-s="pick-again">Select foods from yesterday's ${mealLabel(mealId).toLowerCase()}</button></li>` : ''}
+      ${ls.length ? `<li><button data-s="savemeal">Save as a meal <span style="color:var(--ink3)">log it again in one tap</span></button></li><li><button data-s="pick-meal">Select foods to copy</button></li><li><button data-s="dup">Copy all to another meal</button></li>` : ''}
     </ul>
     ${ls.length ? `<div id="dupmeals" hidden><p class="s-label">Copy to</p><div class="chips">${MEALS.filter(m => m.id !== mealId).map(m => `<button class="chip" data-s="tomeal" data-m="${m.id}">${m.label}</button>`).join('')}</div></div>
     <p class="s-label">Copy to another date</p>
-    <div class="barrow"><input class="inp" type="date" id="md" value="${addDays(ui.date, 1)}"><button class="btn slim" data-s="todate">Copy</button></div>
+    <div class="barrow"><input class="inp" type="date" id="md" value="${addDays(ui.date, 1)}"><button class="btn slim" data-s="todate">Copy all</button></div>
     <ul class="menu" style="margin-top:14px"><li><button class="danger" data-s="clear">Clear ${mealLabel(mealId).toLowerCase()}</button></li></ul>` : (!prev.length ? '<p class="empty">Nothing to copy yet.</p>' : '')}
   `, root => root.addEventListener('click', e => {
     const b = e.target.closest('[data-s]'); if (!b) return; const s = b.dataset.s;
-    if (s === 'again') { copyLogs(prev, ui.date); closeSheet(); render(); toast(`Logged ${prev.length} again`); }
+    if (s === 'again') { copyAllWithUndo(prev, ui.date, null, `Logged ${prev.length} again`); }
+    if (s === 'pick-again') openSelectiveCopy({fromDate:addDays(ui.date,-1),mealId,toDate:ui.date});
+    if (s === 'pick-meal') openSelectiveCopy({fromDate:ui.date,mealId,toDate:$('#md',root)?.value||addDays(ui.date,1)});
     if (s === 'savemeal') openSaveMealSheet(ls, mealId);
     if (s === 'dup') $('#dupmeals', root).hidden = false;
-    if (s === 'tomeal') { copyLogs(ls, ui.date, b.dataset.m); closeSheet(); render(); toast(`Copied to ${mealLabel(b.dataset.m)}`); }
-    if (s === 'todate') { const to = $('#md', root).value; if (!to) return; copyLogs(ls, to); closeSheet(); toast(`Copied to ${dayLabel(to)}`); }
+    if (s === 'tomeal') { copyAllWithUndo(ls, ui.date, b.dataset.m, `Copied to ${mealLabel(b.dataset.m)}`); }
+    if (s === 'todate') { const to = $('#md', root).value; if (!to) return; copyAllWithUndo(ls, to, null, `Copied to ${dayLabel(to)}`); }
     if (s === 'clear') {
       ls.forEach(l => delete db.logs[l.id]); save(); closeSheet(); render();
       toast(`${mealLabel(mealId)} cleared`, { label: 'Undo', fn: () => { ls.forEach(l => db.logs[l.id] = l); save(); render(); } });
@@ -918,10 +1590,11 @@ document.addEventListener('touchcancel', endSwipe);
 /* =====================================================================
    features/food — add food
    ===================================================================== */
-const FOOD_TABS = [['recent', 'Recent'], ['favs', 'Favourites'], ['meals', 'Meals'], ['recipes', 'Recipes'], ['mine', 'My foods'], ['quick', 'Quick add'], ['barcode', 'Barcode']];
+const FOOD_TABS = [['recent', 'Recent'], ['ai', 'Describe'], ['favs', 'Favourites'], ['meals', 'Meals'], ['recipes', 'Recipes'], ['mine', 'My foods'], ['quick', 'Quick add'], ['barcode', 'Barcode']];
 function renderFood(v) {
   v.innerHTML = `
-    <div class="page-head"><h1 class="title">Add food</h1><button class="textbtn" data-action="tab" data-tab="today">Done</button></div>
+    <div class="page-head"><h1 class="title">${ui.batch.active ? 'Build a log' : 'Add food'}</h1><button class="textbtn" data-action="tab" data-tab="today">Done</button></div>
+    ${ui.batch.active ? `<div class="batch-banner"><div class="batch-banner-title"><strong>One log, multiple foods</strong><button class="textbtn danger" data-action="batch-cancel">Discard</button></div><p>${esc(mealLabel(ui.batch.meal))} · ${esc(dayLabel(ui.batch.date))}. Choose cereal, milk, fruit—anything you ate. Nothing is saved until you finish.</p></div>` : `<button class="batch-start" data-action="batch-start">${I.plus} Add multiple foods at once</button>`}
     ${ui.date !== todayKey() ? `<p class="ctx">Logging to ${esc(dayLabel(ui.date))}</p>` : ''}
     <div class="chips" id="mealchips" role="group" aria-label="Meal">${MEALS.map(m => `<button class="chip" data-action="set-meal" data-meal="${m.id}" aria-pressed="${ui.meal === m.id}">${m.label}</button>`).join('')}</div>
     <div class="searchbox">${I.search}<input id="q" type="search" placeholder="Search foods" autocomplete="off" autocorrect="off" enterkeyhint="search" value="${esc(ui.query)}" aria-label="Search foods"><button class="scanbtn" data-action="scan" aria-label="Scan a barcode">${I.scan}</button></div>
@@ -931,6 +1604,7 @@ function renderFood(v) {
   q.addEventListener('input', () => { ui.query = q.value; renderFoodBody(); scheduleUsda(); });
   q.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); q.blur(); runOnlineSearch(); } });
   renderFoodBody();
+  renderBatchTray();
 }
 
 function foodRow(food, { quick = true } = {}) {
@@ -947,6 +1621,8 @@ function foodRow(food, { quick = true } = {}) {
     ${quick ? `<button class="qadd" data-action="quick-log" data-id="${esc(food.id)}" aria-label="Log ${esc(food.name)}, ${esc(unitText(p.qty, p.unitId, food.servings))}">${I.plus}</button>` : ''}
   </li>`;
 }
+const PROCESSED = ['dried', 'powder', 'dehydrated', 'glutinous', 'imitation', 'substitute', 'babyfood', 'mix', 'canned', 'concentrate', 'condensed', 'evaporated', 'flour', 'freeze-dried', 'unprepared', 'baby'];
+const processedHits = (name, q) => PROCESSED.filter(w => new RegExp(`\\b${w}\\b`).test(name) && !q.includes(w)).length;
 function searchLocal(q) {
   const toks = q.toLowerCase().split(/\s+/).filter(Boolean);
   if (!toks.length) return [];
@@ -955,7 +1631,7 @@ function searchLocal(q) {
     if (!toks.every(t => hay.includes(t))) return null;
     const u = db.usage[f.id];
     const first = f.name.toLowerCase().split(',')[0];
-    const s = (u ? u.count * 5 : 0) + (db.favorites[f.id] ? 20 : 0) + (first.startsWith(toks[0]) ? 10 : 0) + (first === toks[0] ? 4 : 0) + (f.source === 'custom' || f.source === 'recipe' ? 8 : 0) - f.name.length / 20;
+    const s = (u ? u.count * 5 : 0) + (db.favorites[f.id] ? 20 : 0) + (first.startsWith(toks[0]) ? 10 : 0) + (first === toks[0] ? 4 : 0) + (f.source === 'custom' || f.source === 'recipe' ? 8 : 0) - f.name.length / 20 - processedHits(hay, q.toLowerCase()) * 3;
     return { f, s };
   }).filter(Boolean).sort((a, b) => b.s - a.s || a.f.name.localeCompare(b.f.name)).map(x => x.f);
 }
@@ -993,6 +1669,29 @@ function renderFoodBody() {
   } else if (t === 'favs') {
     const fav = Repo.favourites();
     body.innerHTML = fav.length ? `<ul class="list">${fav.map(f => foodRow(f)).join('')}</ul>` : `<p class="empty">Tap the star when adding a food to keep it here.</p>`;
+  } else if (t === 'ai') {
+    const a = ui.ai;
+    body.innerHTML = `<div style="margin-top:14px">
+      <textarea class="inp ta" id="aitext" rows="3" placeholder="${a.photo ? 'Optional notes, like “large bowl” or “I ate half”' : '180 g chicken breast, 150 g jasmine rice and half an avocado'}" aria-label="Describe what you ate">${esc(a.text)}</textarea>
+      <div class="grid2" style="margin-top:10px">
+        <button class="btn" data-action="ai-parse" ${a.state === 'loading' ? 'disabled' : ''}>${a.state === 'loading' ? (a.photo ? 'Looking…' : 'Reading…') : a.photo ? 'Analyze photo' : 'Find foods'}</button>
+        <button class="btn ghost" data-action="ai-photo" ${a.state === 'loading' ? 'disabled' : ''}>${I.camera}<span style="margin-left:8px">${a.photo ? 'New photo' : 'Photo'}</span></button>
+      </div>
+      <input type="file" id="aiphoto" accept="image/*" hidden>
+      ${a.photo ? `<img class="aiimg" src="${a.photo}" alt="Your meal photo"><div class="s-sec"><span></span><button class="textbtn danger" data-action="ai-clear-photo">Remove photo</button></div>` : ''}
+      ${a.state === 'error' ? `<p class="status">${esc(a.msg)}</p>` : ''}
+      ${a.items.length ? '' : `<p class="hint">Gemini only reads your sentence. Calories and macros come from your foods and the food databases, and nothing is logged until you check it and tap Add.</p>`}
+      <ul class="list" id="aiitems"></ul><div id="aisum"></div></div>`;
+    const ta = $('#aitext');
+    ta.addEventListener('input', () => { a.text = ta.value; });
+    $('#aiphoto').addEventListener('change', async e => {
+      const file = e.target.files[0]; if (!file) return;
+      a.text = ta.value.trim();
+      try { a.photo = await imageToJpeg(file); a.items = []; } catch (err) { a.state = 'error'; a.msg = AI.errorText(err); renderFoodBody(); return; }
+      actions['ai-parse']();
+    });
+    ta.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) actions['ai-parse'](); });
+    if (a.items.length) bindAiReview(body);
   } else if (t === 'meals') {
     const ms = Repo.meals();
     body.innerHTML = ms.length ? `<ul class="list">${ms.map(mealRow).join('')}</ul>`
@@ -1003,17 +1702,22 @@ function renderFoodBody() {
       (rs.length ? `<ul class="list">${rs.map(r => foodRow(recipeFood(r))).join('')}</ul>` : `<p class="empty">Build a recipe from your foods, say how many servings it makes, then log a serving like any other food.</p>`);
   } else if (t === 'mine') {
     const mine = Repo.myFoods();
-    body.innerHTML = `<button class="rowbtn" data-action="create-food">${I.plus}Create a food</button>` +
+    body.innerHTML = `<button class="rowbtn" data-action="create-food">${I.plus}Create a food</button><button class="rowbtn" data-action="label-scan">${I.camera}Create from a nutrition label photo</button>` +
       (mine.length ? `<ul class="list">${mine.map(f => foodRow(f)).join('')}</ul>` : `<p class="empty">Foods you create from nutrition labels live here and show up first in search.</p>`);
   } else if (t === 'quick') {
     body.innerHTML = `<div style="margin-top:14px">${quickFormHTML()}<button class="btn block" data-qs="submit">Add to ${mealLabel(ui.meal)}</button></div>`;
     bindQuickForm(body, vals => {
+      if (ui.batch.active) {
+        ui.batch.items.push({ id: uid(), kind: 'quick', name: vals.name || 'Quick add', nutrients: vals.nutrients });
+        render(); toast('Added to your draft log'); return;
+      }
       const l = { id: uid(), date: ui.date, meal: ui.meal, kind: 'quick', name: vals.name, nutrients: vals.nutrients, createdAt: Date.now() };
       db.logs[l.id] = l; save(); renderFoodBody();
       toast(`Added to ${mealLabel(l.meal)}`, { label: 'Undo', fn: () => { delete db.logs[l.id]; save(); } });
     });
   } else if (t === 'barcode') {
     body.innerHTML = `<button class="btn block" style="margin-top:16px" data-action="scan">${I.scan}<span style="margin-left:8px">Scan with camera</span></button>
+      <button class="btn ghost block" style="margin-top:10px" data-action="label-scan">${I.camera}<span style="margin-left:8px">Scan a nutrition label</span></button>
       <p class="hint" style="margin-top:20px">Or type the number printed under the barcode.</p>
       <div class="barrow"><input class="inp" id="bc" inputmode="numeric" placeholder="e.g. 0068100084245" aria-label="Barcode number"><button class="btn ghost slim" data-action="barcode-lookup">Look up</button></div>`;
     $('#bc').addEventListener('keydown', e => { if (e.key === 'Enter') actions['barcode-lookup'](); });
@@ -1075,7 +1779,7 @@ function openFoodSheet(food, log = null) {
   const units = Nutrition.units(servings);
   const p = log ? { qty: log.qty, unitId: log.unitId } : defaultPortion(food);
   let qty = p.qty, unitId = units.some(u => u.id === p.unitId) ? p.unitId : 'g', meal = log ? log.meal : ui.meal;
-  const unitChip = u => `<button type="button" class="chip" data-s="unit" data-u="${u.id}" aria-pressed="${u.id === unitId}">${esc(u.id === 'g' || u.id === 'oz' ? u.label : `${u.label} (${fmtG(u.grams)} g)`)}</button>`;
+  const unitChip = u => `<button type="button" class="chip" data-s="unit" data-u="${u.id}" aria-pressed="${u.id === unitId}">${esc(unitLabel(u))}</button>`;
 
   openSheet(`
     <h2 class="s-title">${esc(name)}</h2>${brand ? `<p class="s-sub">${esc(brand)}</p>` : ''}
@@ -1096,7 +1800,7 @@ function openFoodSheet(food, log = null) {
       const grams = Nutrition.toGrams(qty, unitId, servings);
       $('#sn', root).innerHTML = nutPanel(Nutrition.scale(per100, grams), grams);
       const b = $('[data-s=save]', root);
-      b.textContent = log ? 'Save changes' : `Add to ${mealLabel(meal)}`;
+      b.textContent = log ? 'Save changes' : ui.batch.active ? 'Add to log' : `Add to ${mealLabel(meal)}`;
       b.disabled = !(qty > 0);
     };
     const qi = $('#sq', root);
@@ -1118,7 +1822,8 @@ function openFoodSheet(food, log = null) {
         if (log) {
           Object.assign(log, { qty, unitId, meal, grams: Nutrition.toGrams(qty, unitId, servings) });
           db.logs[log.id] = log; Repo.touchUsage(foodId, qty, unitId); save(); closeSheet(); render();
-        } else { const l = logFood(food, qty, unitId, meal, ui.date); closeSheet(); afterAdd(l); }
+        } else if (ui.batch.active) { ui.meal = meal; ui.batch.meal = meal; stageBatchFood(food, qty, unitId); closeSheet(); render(); toast('Added to your draft log'); }
+        else { const l = logFood(food, qty, unitId, meal, ui.date); closeSheet(); afterAdd(l); }
       } else if (s === 'dup') { copyLogs([log], log.date); closeSheet(); render(); toast('Duplicated'); }
       else if (s === 'del') { closeSheet(); deleteLogWithUndo(log.id); }
     });
@@ -1172,32 +1877,61 @@ function openQuickSheet(log) {
 }
 
 /* ---------- custom food ---------- */
-function openCustomFoodSheet({ food = null, name = '', barcode = '', thenLog = false } = {}) {
+function openCustomFoodSheet({ food = null, name = '', barcode = '', thenLog = false, scanLabel = false } = {}) {
   const s0 = food?.servings?.[0];
   const sg = s0 ? s0.grams : 100;
   const per = food ? Nutrition.scale(food.per100, sg) : {};
   const num = (k, label, unit = '') => `<label class="field"><span>${label}${unit ? ` (${unit})` : ''}</span><input class="inp" data-f="${k}" inputmode="decimal" value="${per[k] != null ? fmtQty(per[k]) : ''}"></label>`;
   openSheet(`
     <h2 class="s-title">${food ? 'Edit food' : 'Create food'}</h2>
-    <p class="hint">Enter nutrition for one serving, as printed on the label.</p>
+    <p class="hint">Enter nutrition for one serving, as printed on the label, or let Tally read it from a photo.</p>
+    <button type="button" class="btn ghost block" data-s="label" style="margin:4px 0 6px">${I.camera}<span style="margin-left:8px">Scan nutrition label</span></button>
+    <input type="file" id="lblfile" accept="image/*" hidden>
+    <p class="hint" id="lblst" aria-live="polite"></p>
     <label class="field"><span>Food name</span><input class="inp" data-f="name" value="${esc(food?.name || name)}" autocapitalize="sentences"></label>
     <label class="field"><span>Brand (optional)</span><input class="inp" data-f="brand" value="${esc(food?.brand || '')}"></label>
     <div class="grid2">
       <label class="field"><span>Serving name</span><input class="inp" data-f="sname" value="${esc(s0?.label || 'serving')}"></label>
-      <label class="field"><span>Serving weight (g)</span><input class="inp" data-f="sg" inputmode="decimal" value="${s0 ? fmtQty(sg) : ''}"></label>
+      <label class="field"><span>Serving size</span><span class="sizerow"><input class="inp" data-f="sg" inputmode="decimal" value="${s0 ? fmtQty(s0.ml || sg) : ''}" aria-label="Serving size amount"><select class="inp" data-f="su" aria-label="Serving size unit">${['g', 'ml', 'oz'].map(u => `<option value="${u}" ${(s0?.ml ? 'ml' : 'g') === u ? 'selected' : ''}>${u}</option>`).join('')}</select></span></label>
+      <label class="field" id="densf" ${s0?.ml ? '' : 'hidden'} style="grid-column:1/-1"><span>Weight of one serving in g (optional)</span><input class="inp" data-f="sw" inputmode="decimal" value="${s0?.ml && Math.abs(s0.grams - s0.ml) > 0.01 ? fmtQty(s0.grams) : ''}" placeholder="Leave blank to log by volume only"></label>
       ${num('kcal', 'Calories')}${num('protein', 'Protein', 'g')}${num('carbs', 'Carbs', 'g')}${num('fat', 'Fat', 'g')}
       ${EXTRA.map(x => num(x.key, x.label, x.unit)).join('')}
     </div>
     <label class="field"><span>Barcode (optional)</span><input class="inp" data-f="barcode" inputmode="numeric" value="${esc(food?.barcode || barcode)}"></label>
     <div class="s-actions"><button class="btn" data-s="save">${food ? 'Save changes' : thenLog ? 'Save and log' : 'Save food'}</button></div>
+    <p class="hint">Logging a drink? Choose ml and it can be logged in ml, cups or fl oz.</p>
     ${food ? `<div class="s-sec"><button class="textbtn" data-s="log">Log this food</button><button class="textbtn danger" data-s="del">Delete food</button></div>` : ''}
-  `, root => root.addEventListener('click', e => {
+  `, root => { $('[data-f=su]', root).addEventListener('change', e => { $('#densf', root).hidden = e.target.value !== 'ml'; });
+    $('#lblfile', root).addEventListener('change', async e => {
+      const file = e.target.files[0]; if (!file) return;
+      const st = $('#lblst', root), btn = $('[data-s=label]', root);
+      st.textContent = 'Reading the label…'; btn.disabled = true;
+      try {
+        const L = await AI.readLabel(await imageToJpeg(file, 1600));
+        const put = (k, v) => { const el = $(`[data-f=${k}]`, root); if (el && v != null && v !== '') el.value = typeof v === 'number' ? fmtQty(v) : v; };
+        if (!$('[data-f=name]', root).value.trim()) put('name', L.name);
+        if (!$('[data-f=brand]', root).value.trim()) put('brand', L.brand);
+        put('sname', L.servingName || 'serving');
+        const unit = String(L.servingUnit || 'g').toLowerCase() === 'ml' ? 'ml' : 'g';
+        $('[data-f=su]', root).value = unit; $('#densf', root).hidden = unit !== 'ml';
+        put('sg', Number(L.servingAmount) || null);
+        if (unit === 'ml') put('sw', Number(L.servingGrams) || null);
+        for (const k of ['kcal', 'protein', 'carbs', 'fat', 'fiber', 'sugar', 'sodium']) { const v = Number(L[k]); if (L[k] != null && Number.isFinite(v)) put(k, v); }
+        const missing = ['kcal', 'protein', 'carbs', 'fat'].filter(k => L[k] == null);
+        st.textContent = missing.length ? `Filled what was readable. Add ${missing.map(k => ({ kcal: 'calories', protein: 'protein', carbs: 'carbs', fat: 'fat' })[k]).join(', ')} by hand, then check the rest.` : 'Filled from the label. Check each number against the package before saving.';
+        if (!$('[data-f=name]', root).value.trim()) $('[data-f=name]', root).focus();
+      } catch (err) { st.textContent = AI.errorText(err); }
+      btn.disabled = false; e.target.value = '';
+    });
+    if (scanLabel) $('#lblfile', root).click(); root.addEventListener('click', e => {
     const s = e.target.closest('[data-s]')?.dataset.s; if (!s) return;
+    if (s === 'label') { $('#lblfile', root).click(); return; }
     const get = k => $(`[data-f=${k}]`, root).value.trim();
     if (s === 'save') {
-      const nm = get('name'), grams = parseNum(get('sg'));
+      const nm = get('name'), amount = parseNum(get('sg')), su = get('su');
+      const grams = su === 'ml' ? (parseNum(get('sw')) || amount) : su === 'oz' ? amount * OZ : amount;
       if (!nm) { $('[data-f=name]', root).focus(); toast('Add a food name'); return; }
-      if (!(grams > 0)) { $('[data-f=sg]', root).focus(); toast('Add the serving weight in grams'); return; }
+      if (!(grams > 0)) { $('[data-f=sg]', root).focus(); toast('Add the serving size'); return; }
       if (get('kcal') === '') { $('[data-f=kcal]', root).focus(); toast('Add calories per serving'); return; }
       const per100 = {};
       for (const k of ['kcal', 'protein', 'carbs', 'fat', ...EXTRA.map(x => x.key)]) {
@@ -1206,7 +1940,13 @@ function openCustomFoodSheet({ food = null, name = '', barcode = '', thenLog = f
       }
       const f = {
         ...(food || {}), id: food?.id || 'c:' + uid(), name: nm, brand: get('brand'), source: food?.source || 'custom',
-        per100, servings: [{ id: s0?.id || 's1', label: get('sname') || 'serving', grams }, ...(food?.servings || []).slice(1)],
+        per100, servings: (() => {
+          const rest = (food?.servings || []).slice(1).filter(x => x.id !== 'ml');
+          const oldMl = (food?.servings || []).find(x => x.id === 'ml');
+          const first = { id: s0?.id || 's1', label: get('sname') || 'serving', grams, ...(su === 'ml' ? { ml: amount } : {}) };
+          const mlEntry = su === 'ml' ? { id: 'ml', label: 'ml', grams: grams / amount } : oldMl;
+          return [first, ...rest, ...(mlEntry ? [mlEntry] : [])];
+        })(),
         barcode: get('barcode'), updatedAt: Date.now(), createdAt: food?.createdAt || Date.now(),
       };
       db.foods[f.id] = f; save();
@@ -1219,7 +1959,7 @@ function openCustomFoodSheet({ food = null, name = '', barcode = '', thenLog = f
       delete db.foods[food.id]; delete db.favorites[food.id]; delete db.usage[food.id]; save(); closeSheet(); render();
       toast('Food deleted. Past logs keep their numbers.', { label: 'Undo', fn: () => { db.foods[snapshot.id] = snapshot; if (fav) db.favorites[snapshot.id] = fav; if (usage) db.usage[snapshot.id] = usage; save(); render(); } });
     }
-  }));
+  }); });
 }
 
 /* ---------- shared item row (recipe ingredients, saved-meal items) ---------- */
@@ -1228,7 +1968,7 @@ function itemRow(t, i) {
     <span class="ing-kcal">${fmtN(itemNutrition(t).kcal)}</span><button type="button" class="iconbtn sm" data-s="rm" data-i="${i}" aria-label="Remove">${I.x}</button></li>`;
   return `<li class="ing"><span class="ing-name">${esc(itemName(t))}</span>
     <input class="inp ing-q" data-i="${i}" inputmode="decimal" value="${fmtQty(t.qty)}" aria-label="Amount of ${esc(itemName(t))}">
-    <select class="inp ing-u" data-i="${i}" aria-label="Unit">${Nutrition.units(itemServings(t)).map(u => `<option value="${u.id}" ${u.id === t.unitId ? 'selected' : ''}>${esc(u.id === 'g' || u.id === 'oz' ? u.label : `${u.label} (${fmtG(u.grams)} g)`)}</option>`).join('')}</select>
+    <select class="inp ing-u" data-i="${i}" aria-label="Unit">${Nutrition.units(itemServings(t)).map(u => `<option value="${u.id}" ${u.id === t.unitId ? 'selected' : ''}>${esc(unitLabel(u))}</option>`).join('')}</select>
     <span class="ing-kcal" data-k="${i}">${fmtN(itemNutrition(t).kcal)}</span>
     <button type="button" class="iconbtn sm" data-s="rm" data-i="${i}" aria-label="Remove">${I.x}</button></li>`;
 }
@@ -1287,7 +2027,7 @@ function openSavedMealSheet(sm) {
   root => root.addEventListener('click', e => {
     const t = e.target.closest('[data-s]'); if (!t) return; const s = t.dataset.s;
     if (s === 'meal') { meal = t.dataset.m; setPressed($('#sm', root), 'm', meal); $('[data-s=log]', root).textContent = `Add all to ${mealLabel(meal)}`; }
-    if (s === 'log') { closeSheet(); logSavedMealWithUndo(sm, meal); }
+    if (s === 'log') { closeSheet(); if (ui.batch.active) { ui.batch.meal = meal; ui.meal = meal; sm.items.forEach(it => stageBatchItem(it)); render(); toast('Added meal items to draft log'); } else logSavedMealWithUndo(sm, meal); }
     if (s === 'edit') openMealEditor(sm);
   }));
 }
@@ -1425,6 +2165,121 @@ function openRecipeSheet(recipe = null) {
   });
 }
 
+/* ---------- staged multi-food log: nothing reaches db.logs until Save ---------- */
+function startBatch() {
+  if (!ui.batch.active) ui.batch = { active:true, date:ui.date, meal:ui.meal, items:[] };
+  ui.meal = ui.batch.meal;
+  if (ui.tab === 'food') render(); else go('food');
+}
+function stageBatchFood(food, qty, unitId) {
+  if (!(qty > 0)) return;
+  ui.batch.items.push({ id:uid(), kind:'food', food:clone(food), qty, unitId });
+}
+function stageBatchItem(it) {
+  if (it.kind === 'quick') {
+    ui.batch.items.push({ id:uid(), kind:'quick', name:it.name || 'Quick add', nutrients:clone(it.nutrients) });
+  } else {
+    const f = Repo.food(it.foodId) || (it.snap && { id:it.foodId, name:it.snap.name, brand:it.snap.brand, source:'custom', per100:it.snap.per100, servings:it.snap.servings });
+    if (f) {
+      const valid = Nutrition.units(f.servings).some(u => u.id === it.unitId);
+      stageBatchFood(f, valid ? it.qty : it.grams, valid ? it.unitId : 'g');
+    }
+  }
+}
+function batchNutrition(t) {
+  return t.kind === 'quick' ? t.nutrients : Nutrition.scale(t.food.per100, Nutrition.toGrams(t.qty, t.unitId, t.food.servings));
+}
+function batchTotals() { return Nutrition.sum(ui.batch.items.map(batchNutrition)); }
+function renderBatchTray() {
+  const existing = $('#batch-tray'); if (existing) existing.remove();
+  if (ui.tab !== 'food' || !ui.batch.active) return;
+  const b = ui.batch, count = b.items.length, n = batchTotals();
+  const el = document.createElement('div'); el.className = 'batch-tray'; el.id = 'batch-tray';
+  el.innerHTML = `<div class="batch-tray-inner"><div class="batch-tray-summary"><b>${count} ${count === 1 ? 'food' : 'foods'} in this log</b><span>${fmtN(n.kcal)} kcal · P ${fmtN(n.protein)} · C ${fmtN(n.carbs)} · F ${fmtN(n.fat)}</span></div><button type="button" class="btn" data-action="batch-review" ${count ? '' : 'disabled'}>${count ? 'Review & log' : 'Choose foods'}</button></div>`;
+  document.body.appendChild(el);
+}
+function cancelBatch() {
+  if (ui.batch.items.length && !confirm(`Discard ${ui.batch.items.length} foods from your unfinished log?`)) return;
+  ui.batch = {active:false,date:null,meal:null,items:[]};
+  if (ui.tab === 'food') render(); else render();
+}
+function openBatchReview() {
+  const b = ui.batch; if (!b.active || !b.items.length) return;
+  const cards = () => b.items.map((t, i) => {
+    const n = batchNutrition(t);
+    if (t.kind === 'quick') return `<div class="batch-item" data-bi="${esc(t.id)}"><div class="batch-item-top"><strong>${esc(t.name)}</strong><span>${fmtN(n.kcal)} kcal</span></div><div class="batch-item-ctrl"><span class="batch-item-detail">Quick add</span><span></span><button class="iconbtn" data-bremove="${esc(t.id)}" aria-label="Remove ${esc(t.name)}">${I.x}</button></div></div>`;
+    return `<div class="batch-item" data-bi="${esc(t.id)}"><div class="batch-item-top"><strong>${esc(t.food.name)}</strong><span data-bkcal="${esc(t.id)}">${fmtN(n.kcal)} kcal</span></div>
+    <div class="batch-item-ctrl"><input class="inp" type="number" min="0.01" step="any" data-bqty="${esc(t.id)}" value="${fmtQty(t.qty)}" aria-label="${esc(t.food.name)} quantity">
+    <select class="inp" data-bunit="${esc(t.id)}" aria-label="${esc(t.food.name)} unit">${Nutrition.units(t.food.servings).map(u => `<option value="${esc(u.id)}" ${t.unitId === u.id ? 'selected' : ''}>${esc(unitLabel(u))}</option>`).join('')}</select>
+    <button class="iconbtn" data-bremove="${esc(t.id)}" aria-label="Remove ${esc(t.food.name)}">${I.x}</button></div>
+    <div class="batch-item-detail" data-bmac="${esc(t.id)}">P ${fmtG(n.protein)} · C ${fmtG(n.carbs)} · F ${fmtG(n.fat)} g</div></div>`;
+  }).join('');
+  openSheet(`<h2 class="s-title">Review your log</h2><p class="s-sub">${esc(mealLabel(b.meal))} · ${esc(dayLabel(b.date))} · ${b.items.length} items</p>
+    <div id="batch-review-list" style="margin-top:10px">${cards()}</div>
+    <div class="batch-review-total" id="batch-review-total"></div>
+    <button class="btn block" id="batch-commit" data-s="batch-commit">Log ${b.items.length} foods</button>
+    <button class="btn ghost block" style="margin-top:9px" data-s="batch-more">Add another food</button>
+    <p class="batch-readonly-note">Each food will be saved separately under ${esc(mealLabel(b.meal))}. This is not a reusable meal.</p>`, root => {
+    const update = () => {
+      const n = batchTotals();
+      $('#batch-review-total',root).innerHTML = `<b>${fmtN(n.kcal)} kcal</b><p>Protein ${fmtG(n.protein)} g · Carbs ${fmtG(n.carbs)} g · Fat ${fmtG(n.fat)} g</p>`;
+      $('#batch-commit',root).textContent = `Log ${b.items.length} ${b.items.length === 1 ? 'food' : 'foods'}`;
+      $('#batch-commit',root).disabled = !b.items.length || b.items.some(t => t.kind === 'food' && !(t.qty > 0));
+    };
+    const refreshRow = t => {
+      const n = batchNutrition(t);
+      const row = $(`[data-bi="${t.id}"]`,root);
+      if (row) {
+        $(`[data-bkcal="${t.id}"]`,row).textContent = fmtN(n.kcal) + ' kcal';
+        $(`[data-bmac="${t.id}"]`,row).textContent = `P ${fmtG(n.protein)} · C ${fmtG(n.carbs)} · F ${fmtG(n.fat)} g`;
+      }
+      update();
+    };
+    root.addEventListener('input',e => {
+      const id = e.target.dataset.bqty; if (!id) return;
+      const t = b.items.find(x => x.id === id); if (!t) return;
+      t.qty = Math.max(0,parseNum(e.target.value)); refreshRow(t);
+    });
+    root.addEventListener('change',e => {
+      const id = e.target.dataset.bunit; if (!id) return;
+      const t = b.items.find(x => x.id === id); if (!t) return;
+      const units = Nutrition.units(t.food.servings);
+      const old = units.find(u => u.id === t.unitId), nu = units.find(u => u.id === e.target.value);
+      if (old && nu) { const g = t.qty * old.grams; t.qty = Nutrition.roundFor(g / nu.grams, nu.id); t.unitId = nu.id; $(`[data-bqty="${t.id}"]`,root).value = fmtQty(t.qty); refreshRow(t); }
+    });
+    root.addEventListener('click',e => {
+      const remove = e.target.closest('[data-bremove]');
+      if (remove) {
+        const i = b.items.findIndex(t => t.id === remove.dataset.bremove);
+        if (i >= 0) b.items.splice(i,1);
+        if (!b.items.length) { closeSheet(); render(); return; }
+        $('#batch-review-list',root).innerHTML = cards(); update(); renderBatchTray(); return;
+      }
+      const action = e.target.closest('[data-s]')?.dataset.s;
+      if (action === 'batch-commit') finishBatch();
+      if (action === 'batch-more') { closeSheet(); render(); }
+    });
+    update();
+  });
+}
+function finishBatch() {
+  const b = ui.batch; if (!b.active || !b.items.length || b.items.some(t => t.kind === 'food' && !(t.qty > 0))) return;
+  const ids = [], base = Date.now();
+  b.items.forEach((t, i) => {
+    let l;
+    if (t.kind === 'quick') {
+      l = {id:uid(), date:b.date, meal:b.meal, kind:'quick', name:t.name, nutrients:clone(t.nutrients), createdAt:base+i};
+      db.logs[l.id] = l;
+    } else {
+      l = logFood(t.food, t.qty, t.unitId, b.meal, b.date);
+      l.createdAt = base+i;
+    }
+    ids.push(l.id);
+  });
+  save(); ui.date = b.date; ui.meal = b.meal; ui.batch = {active:false,date:null,meal:null,items:[]}; closeSheet(); go('today');
+  toast(`Logged ${ids.length} foods together`, {label:'Undo', fn:() => {ids.forEach(id=>delete db.logs[id]); save(); render();}});
+}
+
 /* ---------- barcode: lookup + camera scanning ---------- */
 async function lookupBarcode(code) {
   const local = Repo.byBarcode(code);
@@ -1435,57 +2290,168 @@ async function lookupBarcode(code) {
     if (f) { ui.offMap[f.id] = f; openFoodSheet(db.foods[f.id] || f); return; }
     openSheet(`<h2 class="s-title">No match for ${esc(code)}</h2>
       <p class="hint">Open Food Facts doesn't have this product. Create it from the label and the barcode is linked, so the next scan finds it instantly.</p>
-      <div class="stack" style="margin-top:16px"><button class="btn block" data-s="create">Create food with this barcode</button><button class="btn ghost block" data-s="again">Scan again</button></div>`,
+      <div class="stack" style="margin-top:16px"><button class="btn block" data-s="label">Scan its nutrition label</button><button class="btn ghost block" data-s="create">Type it in instead</button><button class="btn ghost block" data-s="again">Scan again</button></div>`,
     root => root.addEventListener('click', e => {
       const s = e.target.closest('[data-s]')?.dataset.s;
       if (s === 'create') openCustomFoodSheet({ barcode: code, thenLog: true });
+      if (s === 'label') openCustomFoodSheet({ barcode: code, thenLog: true, scanLabel: true });
       if (s === 'again') openScanner();
     }));
   } catch (e) { toast("Couldn't reach Open Food Facts. Check your connection."); }
 }
-let scanner = null, scanLib = null;
+let scanner = null, scanLib = null, scanSession = 0, torchOn = false;
+const SCAN_URLS = [
+  'https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js',
+  'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js',
+];
 function loadScanner() {
   if (window.Html5Qrcode) return Promise.resolve();
   if (scanLib) return scanLib;
-  scanLib = new Promise((res, rej) => {
-    const sc = document.createElement('script');
-    sc.src = 'https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js';
-    sc.onload = res; sc.onerror = () => { scanLib = null; sc.remove(); rej(new Error('load')); };
-    document.head.appendChild(sc);
-  });
+  scanLib = (async () => {
+    for (const src of SCAN_URLS) {
+      try {
+        await new Promise((resolve,reject) => {
+          const script = document.createElement('script'); script.src = src; script.async = true;
+          const timer = setTimeout(() => { script.remove(); reject(new Error('timeout')); }, 11000);
+          script.onload = () => { clearTimeout(timer); window.Html5Qrcode ? resolve() : reject(new Error('library missing')); };
+          script.onerror = () => { clearTimeout(timer); script.remove(); reject(new Error('download failed')); };
+          document.head.appendChild(script);
+        });
+        return;
+      } catch (e) { /* try another CDN */ }
+    }
+    throw new Error('scanner-download');
+  })().catch(err => { scanLib=null; throw err; });
   return scanLib;
 }
+function scannerStatus(text) { const el = $('#scanst'); if (el) el.textContent = text; }
+function scannerError(error) {
+  const msg = String(error?.message || error || '').toLowerCase();
+  if (/permission|notallowed|denied|security/.test(msg)) return 'Camera permission is blocked. Allow camera access in your browser settings, then tap Retry.';
+  if (/notfound|devicesnotfound|no camera/.test(msg)) return 'No camera was found. You can scan a barcode photo or enter the number.';
+  if (/notreadable|trackstart|in use|could not start/.test(msg)) return 'Camera is already in use by another app. Close the other camera and retry.';
+  return `Could not start the camera. Try Retry or scan a photo instead. (${String(error?.message || error || 'unknown error').slice(0,110)})`;
+}
 async function stopScanner() {
+  scanSession++; torchOn = false;
   const sc = scanner; scanner = null; if (!sc) return;
   try { if (sc.isScanning) await sc.stop(); } catch (e) {}
   try { sc.clear(); } catch (e) {}
 }
+function scannerTorchAvailable(sc) {
+  try {
+    const cap = sc.getRunningTrackCapabilities?.();
+    if (cap && cap.torch === true) return true;
+    const track = $('#reader video')?.srcObject?.getVideoTracks?.()[0];
+    return track?.getCapabilities?.().torch === true;
+  } catch (e) { return false; }
+}
+function updateTorchControl(sc) {
+  const b = $('#scan-torch'); if (!b) return;
+  const supported = scannerTorchAvailable(sc);
+  b.disabled = !supported; b.setAttribute('aria-pressed', String(torchOn));
+  b.innerHTML = `${I.flash}${supported ? (torchOn ? 'Flash off' : 'Flash on') : 'Flash unavailable'}`;
+  b.title = supported ? 'Switch camera flashlight' : 'Camera torch not supported by this phone or browser';
+}
+async function toggleScannerTorch() {
+  const sc = scanner; if (!sc || !sc.isScanning || !scannerTorchAvailable(sc)) return;
+  const desired = !torchOn, button = $('#scan-torch'); if (button) button.disabled = true;
+  try {
+    if (typeof sc.applyVideoConstraints === 'function') {
+      try { await sc.applyVideoConstraints({advanced:[{torch:desired}]}); }
+      catch (primary) { const track = $('#reader video')?.srcObject?.getVideoTracks?.()[0]; if (!track) throw primary; await track.applyConstraints({advanced:[{torch:desired}]}); }
+    } else {
+      const track = $('#reader video')?.srcObject?.getVideoTracks?.()[0];
+      if (!track) throw new Error('No active track');
+      await track.applyConstraints({advanced:[{torch:desired}]});
+    }
+    if (scanner !== sc) return;
+    torchOn = desired; scannerStatus(desired ? 'Flashlight on. Hold the barcode within the camera view.' : 'Flashlight off. Hold the barcode within the camera view.');
+  } catch (e) { scannerStatus('Your camera did not allow flashlight control. Scanning still works without it.'); }
+  if (scanner === sc) updateTorchControl(sc);
+}
+async function scanBarcodePhoto(file) {
+  if (!file) return;
+  await stopScanner(); const token = scanSession;
+  scannerStatus('Reading barcode from photo…');
+  try {
+    await loadScanner(); if (scanSession !== token || !$('#reader')) return;
+    const sc = new window.Html5Qrcode('reader',{verbose:false}); scanner = sc;
+    const result = await sc.scanFile(file,true);
+    if (scanSession !== token) return;
+    const code = String(result || '').replace(/\D/g,'');
+    if (code.length < 6) throw new Error('not-a-barcode');
+    await stopScanner();
+    closeSheet(); await lookupBarcode(code);
+  } catch (e) {
+    scannerStatus(e?.message === 'scanner-download' ? 'Could not download the scanner. Check your internet connection or type the barcode.' : 'No readable barcode found in that photo. Retake it in good light, or tap Retry camera.');
+  }
+}
 async function openScanner() {
+  // An opening token ensures a late network response can never restart a closed camera.
+  await stopScanner(); let token;
   let done = false;
   openSheet(`<h2 class="s-title">Scan a barcode</h2>
+    <p class="scanner-guide">Point your rear camera at a food barcode. Keep all of the bars in view.</p>
     <div id="reader" class="reader"></div>
-    <p class="status" id="scanst">Starting camera…</p>
-    <button class="btn ghost block" data-s="type">Type the number instead</button>`,
-  root => root.addEventListener('click', e => {
-    if (!e.target.closest('[data-s=type]')) return;
-    closeSheet(); ui.foodTab = 'barcode'; ui.query = ''; go('food'); setTimeout(() => $('#bc')?.focus(), 320);
-  }), { onClose: stopScanner });
-  const st = m => { const el = $('#scanst'); if (el) el.textContent = m; };
-  try { await loadScanner(); } catch (e) { st("Couldn't load the scanner. Check your connection and try again."); return; }
-  if (!$('#reader')) return;
-  const F = window.Html5QrcodeSupportedFormats;
-  const sc = new window.Html5Qrcode('reader', { verbose: false, formatsToSupport: [F.EAN_13, F.EAN_8, F.UPC_A, F.UPC_E], experimentalFeatures: { useBarCodeDetectorIfSupported: true } });
-  scanner = sc;
+    <p class="scanner-status" role="status" aria-live="polite" id="scanst">Starting camera…</p>
+    <div class="scanner-options">
+      <button type="button" class="btn ghost" data-s="torch" id="scan-torch" disabled>${I.flash} Flash unavailable</button>
+      <button type="button" class="btn ghost" data-s="photo">${I.camera} Scan photo</button>
+    </div>
+    <input type="file" id="barcode-photo" accept="image/*" capture="environment" hidden>
+    <button class="btn ghost block" data-s="retry">Retry camera</button>
+    <button class="textbtn" style="display:block;margin:8px auto 0" data-s="type">Type the number instead</button>`,root => {
+      root.addEventListener('click',e => {
+        const action = e.target.closest('[data-s]')?.dataset.s;
+        if (action === 'torch') toggleScannerTorch();
+        if (action === 'photo') $('#barcode-photo',root)?.click();
+        if (action === 'retry') openScanner();
+        if (action === 'type') { closeSheet(); ui.foodTab='barcode'; ui.query=''; go('food'); setTimeout(() => $('#bc')?.focus(),320); }
+      });
+      $('#barcode-photo',root).addEventListener('change',e => scanBarcodePhoto(e.target.files?.[0]));
+    },{onClose:stopScanner});
+  token = ++scanSession;
+  if (!window.isSecureContext && location.hostname !== 'localhost') {
+    scannerStatus('Camera access requires HTTPS. Open your Tally Netlify URL (https://), not a downloaded file. You can still enter barcodes manually.'); return;
+  }
+  if (!navigator.mediaDevices?.getUserMedia) {
+    scannerStatus('This browser cannot access the camera. Use Safari or Chrome over HTTPS, or try Scan photo.'); return;
+  }
   try {
-    await sc.start({ facingMode: 'environment' },
-      { fps: 12, qrbox: (w, h) => ({ width: Math.floor(Math.max(120, Math.min(w * 0.85, 320))), height: Math.floor(Math.max(70, Math.min(h * 0.45, 150))) }) },
-      async code => { if (done) return; done = true; navigator.vibrate?.(30); await stopScanner(); lookupBarcode(code.replace(/\D/g, '')); },
-      () => {});
-    if (scanner !== sc) { try { await sc.stop(); } catch (e) {} return; }
-    st('Hold the barcode inside the frame.');
+    await loadScanner(); if (scanSession !== token || !$('#reader')) return;
+    const F = window.Html5QrcodeSupportedFormats;
+    const cfg = {verbose:false};
+    if (F) cfg.formatsToSupport = [F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E,F.CODE_128,F.CODE_39,F.ITF].filter(x => x != null);
+    // Avoid BarcodeDetector experimental mode; let the library use its cross-browser decoder.
+    const sc = new window.Html5Qrcode('reader',cfg); scanner = sc;
+    const found = async raw => {
+      const code = String(raw || '').replace(/\D/g,'');
+      if (done || code.length < 6 || scanner !== sc) return;
+      done = true; navigator.vibrate?.(30);
+      await stopScanner(); closeSheet(); lookupBarcode(code);
+    };
+    const config = {fps:10, disableFlip:true}; // Uncropped preview avoids camera-size failures on narrow phones.
+    try { await sc.start({facingMode:'environment'},config,found,()=>{}); }
+    catch (first) {
+      if (scanSession !== token) return;
+      const msg = String(first?.message || first);
+      if (/permission|notallowed|denied|security/.test(msg.toLowerCase())) throw first;
+      // Some browsers reject facingMode; retry with an enumerated rear camera.
+      let cameras=[]; try { cameras = await window.Html5Qrcode.getCameras(); } catch (e) {}
+      const cam = cameras.find(c => /back|rear|environment/i.test(c.label)) || cameras[cameras.length-1];
+      if (!cam) throw first;
+      await sc.start(cam.id,config,found,()=>{});
+    }
+    if (scanSession !== token || scanner !== sc) { try { await sc.stop(); } catch (e) {} return; }
+    scannerStatus('Camera ready. Hold the barcode steady until it scans.');
+    updateTorchControl(sc);
   } catch (e) {
-    if (scanner === sc) scanner = null;
-    st('The camera is blocked or unavailable. Allow camera access for this site, or type the number instead.');
+    if (scanSession !== token) return;
+    const sc = scanner; scanner=null;
+    if (sc) { try {sc.clear();} catch (_) {} }
+    scannerStatus(e?.message === 'scanner-download' ? 'Could not load the scanner. Check your internet connection, then Retry, or type the barcode.' : scannerError(e));
   }
 }
 
@@ -1507,6 +2473,106 @@ function openDowSheet(dow) {
     }
     if (s === 'reset') { db.targets = db.targets.filter(x => x.dow !== dow); save(); closeSheet(); render(); toast(`${DOW[dow]}s use your default targets`); }
   }));
+}
+
+/* ---------- AI food entry: match parsed items against the food databases ---------- */
+function portionFor(f, p) {
+  const amt = Number(p?.amount) > 0 ? Number(p.amount) : null;
+  const unit = String(p?.unit || '').toLowerCase(), lbl = String(p?.unitLabel || '').toLowerCase().trim();
+  const sv = f.servings || [];
+  const find = re => sv.find(s => re.test(s.label.toLowerCase()));
+  const cup = find(/^cup/), tbsp = find(/^tbsp|^tablespoon/), tsp = find(/^tsp|^teaspoon/);
+  const us = Nutrition.units(sv), hasU = id => us.some(u => u.id === id);
+  const byMl = ml => hasU('ml') ? { qty: Math.round(ml), unitId: 'ml' } : cup ? { qty: Nutrition.roundFor(ml / 250, cup.id), unitId: cup.id } : { qty: Math.round(ml), unitId: 'g' };
+  if (!amt && !lbl && (!unit || unit === 'null')) return defaultPortion(f);
+  const n = amt || 1;
+  if (unit === 'g') return { qty: n, unitId: 'g' };
+  if (unit === 'kg') return { qty: n * 1000, unitId: 'g' };
+  if (unit === 'oz') return { qty: n, unitId: 'oz' };
+  if (unit === 'lb') return { qty: Nutrition.roundFor(n * 16, 'oz'), unitId: 'oz' };
+  if (unit === 'ml') return byMl(n);
+  if (unit === 'l') return byMl(n * 1000);
+  if (unit === 'fl oz' || unit === 'floz') return hasU('floz') ? { qty: n, unitId: 'floz' } : byMl(n * FLOZ);
+  if (unit === 'cup') return cup ? { qty: n, unitId: cup.id } : hasU('cup') ? { qty: n, unitId: 'cup' } : byMl(n * 250);
+  if (unit === 'tbsp') return tbsp ? { qty: n, unitId: tbsp.id } : hasU('tbsp') ? { qty: n, unitId: 'tbsp' } : byMl(n * 15);
+  if (unit === 'tsp') return tsp ? { qty: n, unitId: tsp.id } : hasU('tsp') ? { qty: n, unitId: 'tsp' } : byMl(n * 5);
+  const m = lbl && (sv.find(s => s.label.toLowerCase() === lbl) || sv.find(s => s.label.toLowerCase().includes(lbl) || lbl.includes(s.label.toLowerCase())));
+  if (m) return { qty: n, unitId: m.id };
+  if (sv.length) return { qty: n, unitId: (sv.find(s => s.label === 'medium') || sv[0]).id };
+  return defaultPortion(f);
+}
+// Re-rank for parsed items: fewer unexplained extra words, no processed forms unless asked,
+// a serving that fits how it was described ("large" egg, a cup), and generic "all varieties" entries.
+function rankAi(list, p, q) {
+  const ql = (q + ' ' + (p.food || '')).toLowerCase();
+  const qt = new Set(ql.split(/[^a-z0-9%]+/).filter(Boolean));
+  const unit = String(p.unit || '').toLowerCase(), lbl = String(p.unitLabel || '').toLowerCase();
+  return list.map((f, i) => {
+    const name = f.name.toLowerCase();
+    const extra = name.split(/[^a-z0-9%]+/).filter(w => w && !qt.has(w) && !['and', 'or', 'with', 'of'].includes(w)).length;
+    const sv = (f.servings || []).map(s => s.label.toLowerCase());
+    const fits = (lbl && sv.some(l => l.includes(lbl) || lbl.includes(l))) || (unit === 'cup' && sv.some(l => l.startsWith('cup'))) || (unit === 'tbsp' && sv.some(l => l.startsWith('tbsp')));
+    const cookedAsk = /\b(cooked|grilled|baked|roasted|fried|boiled|broiled|steamed|poached|pan|bbq|barbecued)\b/.test(ql);
+    const prep = cookedAsk ? (/\braw\b/.test(name) && !/\braw\b/.test(ql) ? -5 : /\b(cooked|grilled|baked|roasted|broiled|dry heat|steamed|poached|boiled)\b/.test(name) ? 2 : 0) : 0;
+    const score = -extra + prep - processedHits(name, ql) * 6 + (fits ? 5 : 0) + (/all (commercial )?varieties/.test(name) ? 3 : 0)
+      + (db.usage[f.id] ? 6 + Math.min(db.usage[f.id].count, 10) : 0) + (f.source === 'custom' || f.source === 'recipe' ? 8 : 0) - i * 0.15;
+    return { f, score };
+  }).sort((a, b) => b.score - a.score).map(x => x.f);
+}
+function setAiFood(item, f) {
+  item.foodId = f.id;
+  item.snap = { name: f.name, brand: f.brand || '', per100: { ...f.per100 }, servings: clone(f.servings || []) };
+  const { qty, unitId } = portionFor(f, item.p);
+  item.qty = qty; item.unitId = unitId; item.grams = Nutrition.toGrams(qty, unitId, f.servings);
+}
+async function matchAiItem(p) {
+  const q = String(p.search || p.food || '').trim();
+  // Databases word things differently ("Fish, salmon, Atlantic, baked"), so relax the query until something matches.
+  const words = q.split(/\s+/).filter(Boolean);
+  let found = [];
+  for (let n = words.length; n >= 1 && !found.length; n--) found = searchLocal(words.slice(0, n).join(' '));
+  let cands = found.length ? rankAi(found.slice(0, 20), p, q).slice(0, 6) : [];
+  if (cands.length < 2 && q && USDA.key()) {
+    try { const r = await USDA.search(q); r.forEach(f => ui.offMap[f.id] = f); cands = [...cands, ...r.filter(f => !cands.some(c => c.id === f.id))].slice(0, 6); } catch (e) {}
+  }
+  const item = { kind: 'food', p, raw: String(p.text || p.food || q), search: q, cands: cands.map(f => f.id), foodId: null, qty: 0, unitId: 'g', grams: 0, snap: null };
+  if (cands.length) setAiFood(item, cands[0]);
+  return item;
+}
+function aiRow(t, i) {
+  if (!t.foodId) return `<li class="ing ai-row"><span class="ai-raw">“${esc(t.raw)}”${t.est ? ' (estimated)' : ''}</span>
+    <span class="ing-fixed" style="grid-column:1/4">No match. <button type="button" class="textbtn" data-s="aisearch" data-q="${esc(t.search || t.raw)}">Search for it</button></span>
+    <button type="button" class="iconbtn sm" data-s="rm" data-i="${i}" aria-label="Remove">${I.x}</button></li>`;
+  const opts = t.cands.map(id => { const f = lookupFood(id); return f ? `<option value="${esc(id)}" ${id === t.foodId ? 'selected' : ''}>${esc(f.name)}${SOURCE_LABEL[f.source] ? ` (${SOURCE_LABEL[f.source]})` : ''}</option>` : ''; }).join('');
+  return `<li class="ing ai-row"><span class="ai-raw">“${esc(t.raw)}”${t.est ? ' (estimated)' : ''}</span>
+    <select class="inp ai-alt" data-i="${i}" aria-label="Matched food for ${esc(t.raw)}">${opts}</select>
+    <input class="inp ing-q" data-i="${i}" inputmode="decimal" value="${fmtQty(t.qty)}" aria-label="Amount">
+    <select class="inp ing-u" data-i="${i}" aria-label="Unit">${Nutrition.units(itemServings(t)).map(u => `<option value="${u.id}" ${u.id === t.unitId ? 'selected' : ''}>${esc(unitLabel(u))}</option>`).join('')}</select>
+    <span class="ing-kcal" data-k="${i}">${fmtN(itemNutrition(t).kcal)}</span>
+    <button type="button" class="iconbtn sm" data-s="rm" data-i="${i}" aria-label="Remove">${I.x}</button></li>`;
+}
+function bindAiReview(body) {
+  const a = ui.ai, ul = $('#aiitems', body), sum = $('#aisum', body);
+  const drawSum = () => {
+    const ok = a.items.filter(t => t.foodId && t.qty > 0);
+    const n = Nutrition.sum(ok.map(itemNutrition));
+    sum.innerHTML = ok.length ? `<p class="s-extra" style="margin-top:12px">Total ${fmtN(n.kcal)} kcal, ${MACROS.map(m => `${m.short} ${fmtN(n[m.key] || 0)} g`).join(', ')}</p>
+      <button class="btn block" style="margin-top:10px" data-action="ai-add">Add ${ok.length} ${ok.length === 1 ? 'food' : 'foods'} to ${mealLabel(ui.meal)}</button>
+      <p class="hint">${a.items.some(t => t.est) ? 'Amounts from photos are estimates, and they matter more than the match. Adjust any that look off.' : 'Check each match. Tap a food name to pick a closer one.'}</p>`
+      : (a.items.length ? '<p class="hint">Nothing matched yet. Search for the foods instead.</p>' : '');
+  };
+  const draw = () => { ul.innerHTML = a.items.map(aiRow).join(''); drawSum(); };
+  bindItemEditing(ul, a.items, draw, drawSum);
+  ul.addEventListener('change', e => {
+    if (!e.target.classList.contains('ai-alt')) return;
+    const t = a.items[+e.target.dataset.i], f = lookupFood(e.target.value);
+    if (t && f) { setAiFood(t, f); draw(); }
+  });
+  ul.addEventListener('click', e => {
+    const b = e.target.closest('[data-s=aisearch]'); if (!b) return;
+    ui.query = b.dataset.q; $('#q').value = ui.query; renderFoodBody(); scheduleUsda();
+  });
+  draw();
 }
 
 /* =====================================================================
@@ -1544,37 +2610,31 @@ function renderProgress(v) {
     const pts = recentW.map((w, i) => `${(i / (recentW.length - 1) * 300).toFixed(1)},${(52 - (w.kg - mn) / rng * 44).toFixed(1)}`).join(' ');
     wspark = `<svg class="spark" viewBox="0 0 300 60" preserveAspectRatio="none" role="img" aria-label="Weight trend"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>`;
   }
-
   const byDate = Repo.logsByDate();
   const avgs = [7, 14, 30].map(d => intakeAverages(byDate, d));
-  const t = Repo.targetFor(todayKey());
-  const days = Array.from({ length: 14 }, (_, i) => addDays(todayKey(), i - 13));
-  const kc = days.map(d => (byDate[d] ? Nutrition.sum(byDate[d].map(logNutrition)).kcal : 0));
-  const top = Math.max(t.kcal * 1.25, ...kc, 1);
-  const bw = 300 / 14;
-  const bars = kc.map((k, i) => { const h = k / top * 70; return `<rect x="${(i * bw + 3).toFixed(1)}" y="${(76 - h).toFixed(1)}" width="${(bw - 6).toFixed(1)}" height="${h.toFixed(1)}" rx="3" fill="${i === 13 ? 'var(--line)' : k > t.kcal ? 'var(--over)' : 'var(--ink3)'}" opacity="${i === 13 ? 1 : .8}"/>`; }).join('');
-  const ty = (76 - t.kcal / top * 70).toFixed(1);
   const cell = (a, k, suffix = '') => a ? `${fmtN(a[k])}${suffix}` : '—';
-
   v.innerHTML = `
     <div class="page-head"><h1 class="title">Progress</h1></div>
     <section class="p-sec" style="padding-top:6px">
       <h2 class="sec">Weight</h2>
-      <div class="barrow"><input class="inp" id="w" inputmode="decimal" placeholder="Today's weight" aria-label="Today's weight in ${unit}" value="${db.weights[todayKey()] ? fmtN(toDisplayW(db.weights[todayKey()].kg), 1) : ''}"><span class="unitsuffix">${unit}</span><button class="btn slim" data-action="add-weight">Save</button></div>
+      <p class="hint">Record today's weight or select an earlier date to add a past weigh-in.</p>
+      <div class="weight-entry">
+        <label><span>Date</span><input class="inp" type="date" id="weight-date" value="${todayKey()}" max="${todayKey()}" aria-label="Weigh-in date"></label>
+        <label><span>Weight (${unit})</span><input class="inp" id="w" type="number" inputmode="decimal" min="0.1" step="0.1" placeholder="e.g. 180" aria-label="Weight in ${unit}" value="${db.weights[todayKey()] ? fmtN(toDisplayW(db.weights[todayKey()].kg), 1) : ''}"></label>
+        <button class="btn slim" data-action="add-weight">Save</button>
+      </div>
       ${ws.length ? `<div class="stats">
         <div class="stat"><b>${latest ? fmtN(toDisplayW(latest.kg), 1) : '—'}</b><span>Latest, ${esc(dayLabel(latest.date))}</span></div>
         <div class="stat"><b>${a7 != null ? fmtN(toDisplayW(a7), 1) : '—'}</b><span>7-day average</span></div>
         <div class="stat"><b>${change != null ? (change > 0 ? '+' : '') + fmtN(toDisplayW(change), 1) : '—'}</b><span>vs previous week</span></div>
       </div>${wspark}
       <ul class="wlist">${ws.slice(-5).reverse().map(w => `<li><span>${esc(dayLabel(w.date))}</span><span>${fmtN(toDisplayW(w.kg), 1)} ${unit} <button class="textbtn danger" style="margin-left:10px" data-action="del-weight" data-date="${w.date}">Remove</button></span></li>`).join('')}</ul>`
-      : `<p class="hint">Weigh in most mornings. Averages smooth out daily water swings.</p>`}
+      : `<p class="hint">Log your first weigh-in to see a trend.</p>`}
     </section>
     <section class="p-sec">
-      <h2 class="sec">Calories, last 14 days</h2>
-      <svg class="spark" viewBox="0 0 300 80" role="img" aria-label="Daily calories for the last 14 days">
-        ${bars}<line x1="0" x2="300" y1="${ty}" y2="${ty}" stroke="var(--accent)" stroke-dasharray="3 4" stroke-width="1.2"/>
-      </svg>
-      <p class="hint">Dashed line is your ${fmtN(t.kcal)} kcal target. Today is shown lighter.</p>
+      <div class="trend-top"><h2 class="sec">Nutrition trends</h2><div class="choice-row" role="group" aria-label="Trend time range">${[7,14,30].map(n => `<button data-action="trend-range" data-range="${n}" aria-pressed="${ui.progressRange===n}">${n}d</button>`).join('')}</div></div>
+      <div class="choice-row" role="group" aria-label="Nutrition metric">${[['kcal','Calories'],['protein','Protein'],['carbs','Carbs'],['fat','Fat']].map(([id,label]) => `<button data-action="trend-metric" data-metric="${id}" aria-pressed="${ui.progressMetric===id}">${label}</button>`).join('')}</div>
+      <div id="trendcontent">${trendHTML(byDate)}</div>
     </section>
     <section class="p-sec">
       <h2 class="sec">Daily averages</h2>
@@ -1583,37 +2643,94 @@ function renderProgress(v) {
         ${MACROS.map(m => `<tr><td>${m.label}</td>${avgs.map(a => `<td>${cell(a, m.key, ' g')}</td>`).join('')}</tr>`).join('')}
         <tr><td>Days logged</td>${avgs.map((a, i) => `<td>${a ? a.logged : 0}/${[7, 14, 30][i]}</td>`).join('')}</tr>
       </tbody></table>
-      <p class="hint">Averages use days you logged, up to yesterday. Unlogged days are left out rather than counted as zero.</p>
+      <p class="hint">Averages use days you logged, up to yesterday. Unlogged days are excluded, rather than counted as zero.</p>
     </section>`;
   $('#w').addEventListener('keydown', e => { if (e.key === 'Enter') actions['add-weight'](); });
+  $('#weight-date').addEventListener('change', e => {
+    const w = db.weights[e.target.value];
+    $('#w').value = w ? fmtN(toDisplayW(w.kg), 1) : '';
+  });
+}
+function trendHTML(byDate) {
+  const key = ui.progressMetric, nDays = ui.progressRange, isCal = key === 'kcal';
+  const unit = isCal ? 'kcal' : 'g';
+  const items = Array.from({length:nDays}, (_,i) => {
+    const date = addDays(todayKey(), i - (nDays - 1));
+    const logs = byDate[date];
+    return {date, value: logs?.length ? Nutrition.sum(logs.map(logNutrition))[key] || 0 : null, target: Repo.targetFor(date)[key] || 0};
+  });
+  const logged = items.filter(v => v.value != null);
+  // Full days only: current day is incomplete and excluded from the comparison averages.
+  const complete = logged.filter(v => v.date !== todayKey());
+  const avg = complete.length ? complete.reduce((sum,v) => sum+v.value,0) / complete.length : null;
+  const within = complete.filter(v => isCal ? v.value <= v.target : v.value >= v.target).length;
+  const top = Math.max(1, ...items.map(v => Math.max(v.target, v.value || 0))) * 1.18;
+  const bw = 300 / nDays;
+  const bars = items.map((v,i) => {
+    if (v.value == null) return '';
+    const h = Math.max(1.5, v.value / top * 90);
+    const x = i*bw + (nDays===30 ? 1.6 : 3);
+    const width = Math.max(3, bw - (nDays===30 ? 3.2 : 6));
+    const over = isCal && v.value > v.target;
+    const col = v.date === todayKey() ? 'var(--ink3)' : over ? 'var(--over)' : 'var(--accent)';
+    return `<rect x="${x.toFixed(2)}" y="${(98-h).toFixed(2)}" width="${width.toFixed(2)}" height="${h.toFixed(2)}" rx="${nDays===30 ? 1.5 : 3}" fill="${col}" ${v.date === todayKey() ? 'opacity=".45"' : ''}><title>${esc(dayLabel(v.date))}: ${fmtN(v.value)} ${unit}, target ${fmtN(v.target)} ${unit}</title></rect>`;
+  }).join('');
+  const points = items.map((v,i) => `${(i*bw+bw/2).toFixed(2)},${(98 - v.target / top*90).toFixed(2)}`).join(' ');
+  const label = key === 'kcal' ? 'calories' : key;
+  return `<div class="trend-stats">
+      <div><b>${logged.length}/${nDays}</b><span>Days with entries</span></div>
+      <div><b>${avg == null ? '—' : fmtN(avg)}</b><span>Avg ${label} (${unit}), full days</span></div>
+      <div><b>${complete.length ? `${within}/${complete.length}` : '—'}</b><span>${isCal ? 'At / below target' : 'At / above target'} (full days)</span></div>
+    </div>
+    <div class="chart-wrap"><svg class="spark" viewBox="0 0 300 105" role="img" aria-label="${nDays} day ${label} trend: bars for logged days and a dashed target line" preserveAspectRatio="none">
+      <line x1="0" x2="300" y1="98" y2="98" stroke="var(--line)" stroke-width="1"/>
+      ${bars}
+      <polyline points="${points}" fill="none" stroke="var(--ink2)" stroke-dasharray="4 4" stroke-width="1.4" vector-effect="non-scaling-stroke"/>
+    </svg><div class="trend-axis"><span>${esc(dayLabel(items[0].date))}</span><span>Today</span></div></div>
+    <p class="trend-note">Dashed line = each day’s target. No bar = no food logged; today’s bar is lighter. An unlogged day doesn't mean you ate nothing.</p>`;
 }
 
 /* =====================================================================
    features/library
    ===================================================================== */
-function renderLibrary(v) {
-  const mine = Repo.myFoods(), off = Repo.savedOff(), recipes = Repo.recipes(), meals = Repo.meals();
+function renderLibrarySections() {
+  const q = ui.libraryQuery.trim().toLowerCase(), which = ui.libraryFilter;
+  const find = text => !q || text.toLowerCase().includes(q);
+  const mine = Repo.myFoods().filter(f => find(`${f.name} ${f.brand||''}`));
+  const off = Repo.savedOff().filter(f => find(`${f.name} ${f.brand||''}`));
+  const recipes = Repo.recipes().filter(r => find(r.name));
+  const meals = Repo.meals().filter(m => find(`${m.name} ${m.items.map(itemName).join(' ')}`));
   const row = f => `<li class="frow"><button class="frow-main" data-action="lib-food" data-id="${esc(f.id)}">
-      <span class="f-name">${esc(f.name)}</span><span class="f-kcal">${fmtN(Nutrition.scale(f.per100, f.servings?.[0]?.grams || 100).kcal)}<small>kcal</small></span>
-      <span class="f-sub">${esc([f.brand, f.servings?.[0] ? unitText(1, f.servings[0].id, f.servings) : '100 g'].filter(Boolean).join(', '))}</span>
-      <span class="f-mac">${db.favorites[f.id] ? '★' : ''}</span></button></li>`;
-  v.innerHTML = `
-    <div class="page-head"><h1 class="title">Library</h1><button class="textbtn" data-action="create-food">Create food</button></div>
-    <section class="p-sec" style="padding-top:6px"><h2 class="sec">My foods</h2>
-      ${mine.length ? `<ul class="list">${mine.map(row).join('')}</ul>` : `<p class="hint">Foods you create from labels appear here.</p>`}</section>
-    ${off.length ? `<section class="p-sec"><h2 class="sec">Saved from food databases</h2><ul class="list">${off.map(row).join('')}</ul>
-      <p class="hint">Edit any of these to fix values that look off. Your correction is used from then on.</p></section>` : ''}
-    <section class="p-sec"><div class="sec-row"><h2 class="sec">Recipes</h2><button class="textbtn" data-action="create-recipe">Create recipe</button></div>
-      ${recipes.length ? `<ul class="list">${recipes.map(r => { const f = recipeFood(r), sv = f.servings[0];
-        return `<li class="frow"><button class="frow-main" data-action="lib-recipe" data-id="${r.id}"><span class="f-name">${esc(r.name)}</span>
-          <span class="f-kcal">${fmtN(sv ? Nutrition.scale(f.per100, sv.grams).kcal : 0)}<small>kcal</small></span>
-          <span class="f-sub">${r.items.length} ${r.items.length === 1 ? 'ingredient' : 'ingredients'}, makes ${fmtQty(r.servings)}</span><span class="f-mac">per serving</span></button></li>`; }).join('')}</ul>`
-        : `<p class="hint">Build a recipe from your foods, say how many servings it makes, and log it like any food.</p>`}</section>
-    <section class="p-sec"><h2 class="sec">Saved meals</h2>
-      ${meals.length ? `<ul class="list">${meals.map(sm => `<li class="frow"><button class="frow-main" data-action="lib-meal" data-id="${sm.id}"><span class="f-name">${esc(sm.name)}</span>
-          <span class="f-kcal">${fmtN(Nutrition.sum(sm.items.map(itemNutrition)).kcal)}<small>kcal</small></span>
-          <span class="f-sub">${esc(sm.items.map(itemName).join(', '))}</span><span></span></button></li>`).join('')}</ul>`
-        : `<p class="hint">On Today, tap the options button next to any meal and choose Save as a meal.</p>`}</section>`;
+    <span class="f-name">${esc(f.name)}</span><span class="f-kcal">${fmtN(Nutrition.scale(f.per100, f.servings?.[0]?.grams || 100).kcal)}<small>kcal</small></span>
+    <span class="f-sub">${esc([f.brand, f.servings?.[0] ? unitText(1, f.servings[0].id, f.servings) : '100 g'].filter(Boolean).join(', '))}</span>
+    <span class="f-mac">${db.favorites[f.id] ? '★' : ''}</span></button></li>`;
+  let html = '';
+  if (which === 'all' || which === 'foods') {
+    html += `<section class="p-sec"><div class="sec-row"><h2 class="sec">My foods <span style="color:var(--ink3);font-size:13px">${mine.length}</span></h2><button class="textbtn" data-action="create-food">Create</button></div>
+      ${mine.length ? `<ul class="list">${mine.map(row).join('')}</ul>` : (!q ? `<p class="hint">Foods you create from nutrition labels appear here.</p>` : '')}</section>`;
+    if (off.length) html += `<section class="p-sec"><h2 class="sec">Saved food products <span style="color:var(--ink3);font-size:13px">${off.length}</span></h2>
+      <ul class="list">${off.map(row).join('')}</ul></section>`;
+  }
+  if (which === 'all' || which === 'recipes') html += `<section class="p-sec"><div class="sec-row"><h2 class="sec">Recipes <span style="color:var(--ink3);font-size:13px">${recipes.length}</span></h2><button class="textbtn" data-action="create-recipe">Create</button></div>
+    ${recipes.length ? `<ul class="list">${recipes.map(r => { const f=recipeFood(r), sv=f.servings[0];
+      return `<li class="frow"><button class="frow-main" data-action="lib-recipe" data-id="${r.id}"><span class="f-name">${esc(r.name)}</span>
+      <span class="f-kcal">${fmtN(sv ? Nutrition.scale(f.per100,sv.grams).kcal : 0)}<small>kcal</small></span>
+      <span class="f-sub">${r.items.length} ingredients, makes ${fmtQty(r.servings)}</span><span class="f-mac">per serving</span></button></li>`; }).join('')}</ul>` : (!q ? `<p class="hint">Create a recipe once, then log it any time.</p>` : '')}</section>`;
+  if (which === 'all' || which === 'meals') html += `<section class="p-sec"><h2 class="sec">Saved meals <span style="color:var(--ink3);font-size:13px">${meals.length}</span></h2>
+    ${meals.length ? `<ul class="list">${meals.map(sm => `<li class="frow"><button class="frow-main" data-action="lib-meal" data-id="${sm.id}"><span class="f-name">${esc(sm.name)}</span>
+      <span class="f-kcal">${fmtN(Nutrition.sum(sm.items.map(itemNutrition)).kcal)}<small>kcal</small></span>
+      <span class="f-sub">${esc(sm.items.map(itemName).join(', '))}</span><span></span></button></li>`).join('')}</ul>` : (!q ? `<p class="hint">On Today, open a meal's options and choose Save as a meal.</p>` : '')}</section>`;
+  const shown = ((which === 'all' || which === 'foods') ? mine.length + off.length : 0) + ((which === 'all' || which === 'recipes') ? recipes.length : 0) + ((which === 'all' || which === 'meals') ? meals.length : 0);
+  if (q && shown === 0) html = `<p class="empty">No saved items match “${esc(ui.libraryQuery)}”. Try a different search.</p>`;
+  return html;
+}
+function renderLibrary(v) {
+  v.innerHTML = `<div class="page-head"><h1 class="title">Library</h1><button class="textbtn" data-action="create-food">Create food</button></div>
+    <div class="library-top"><div class="searchbox">${I.search}<input id="libq" type="search" placeholder="Search your foods, recipes & meals" value="${esc(ui.libraryQuery)}" aria-label="Search your saved items" autocomplete="off"></div>
+    <div class="chips lib-filter" role="group" aria-label="Library categories">${[['all','All'],['foods','Foods'],['recipes','Recipes'],['meals','Meals']].map(([id,label]) => `<button class="chip" data-action="lib-filter" data-kind="${id}" aria-pressed="${ui.libraryFilter===id}">${label}</button>`).join('')}</div>
+    <p class="lib-info">Only foods and meals you've saved appear here. Search all foods in the Food tab.</p></div>
+    <div class="library-results" id="libresults">${renderLibrarySections()}</div>`;
+  $('#libq').addEventListener('input', e => { ui.libraryQuery = e.target.value; $('#libresults').innerHTML = renderLibrarySections(); });
 }
 
 /* =====================================================================
@@ -1647,8 +2764,15 @@ function renderSettings(v) {
       <button class="btn ghost block" data-action="save-usda">Save key</button>
       <p class="hint" style="margin-top:14px">Canadian food data: Canadian Nutrient File, Health Canada, 2015. Used as a reference only, not medical advice, and not endorsed by Health Canada.</p>
     </section>
+    <section class="p-sec"><h2 class="sec">AI food entry</h2>
+      <p class="hint" style="margin-top:-4px">Powers Food, then Describe. Your sentence or photo is sent to Google Gemini to read; nutrition always comes from your food databases. Keys are saved on this device only, never in the app's code. Keep billing off on this Google project.</p>
+      <label class="field"><span>Gemini API key</span><input class="inp" id="gemkey" value="${esc(s.geminiKey || '')}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+      <div class="grid2"><button class="btn ghost" data-action="save-gemini">Save key</button><button class="btn ghost" data-action="test-gemini">Test connection</button></div>
+      <p class="hint" id="gemstatus">${s.geminiModel ? `Last worked with ${esc(s.geminiModel)}.` : 'Not tested yet.'}</p>
+    </section>
     <section class="p-sec"><h2 class="sec">Your data</h2>
-      <p class="hint">Everything is stored on this device only. Export a backup now and then, especially before clearing Safari data.</p>
+      <div class="data-overview"><div><b>${Object.keys(db.logs).length}</b><span>Food entries</span></div><div><b>${Object.keys(db.foods).length}</b><span>Saved foods</span></div><div><b>${Object.keys(db.weights).length}</b><span>Weigh-ins</span></div></div>
+      <p class="hint">Your data and API keys are saved in this browser, not synced between devices. Export a backup regularly and before clearing browser data. Don't use private API keys on a site you don't control.</p>
       <div class="stack">
         <button class="btn ghost block" data-action="export">Export backup</button>
         <button class="btn ghost block" data-action="import">Import backup</button>
@@ -1680,43 +2804,110 @@ function renderSettings(v) {
    ===================================================================== */
 const actions = {
   'tab': t => { if (t.dataset.tab === 'food') ui.query = ''; go(t.dataset.tab); },
+  'quick-route': t => { ui.foodTab = t.dataset.view; ui.query = ''; ui.meal = defaultMeal(); go('food'); },
+  'return-today': () => { ui.date = todayKey(); render(); },
+  'lib-filter': t => { ui.libraryFilter = t.dataset.kind; render(); },
+  'trend-metric': t => { ui.progressMetric = t.dataset.metric; render(); },
+  'trend-range': t => { ui.progressRange = Number(t.dataset.range); render(); },
+  'calorie-mode': () => { ui.calorieMode = ui.calorieMode === 'left' ? 'eaten' : 'left'; render(); },
+  'calorie-scope': t => { if (t.dataset.scope === 'day' || t.dataset.scope === 'week') { ui.calorieScope = t.dataset.scope; render(); } },
   'close-sheet': () => closeSheet(),
   'day-prev': () => { ui.date = addDays(ui.date, -1); render(); },
   'day-next': () => { ui.date = addDays(ui.date, 1); render(); },
-  'day-today': () => { ui.date = todayKey(); render(); },
+  'calendar-open': () => openCalendar(),
+  'calendar-prev': () => changeCalendarMonth(-1),
+  'calendar-next': () => changeCalendarMonth(1),
+  'calendar-pick': t => { if (Date.now() - ui.lastCalendarSwipe > 350) chooseCalendarDay(t.dataset.date); },
+  'calendar-today': () => chooseCalendarDay(todayKey()),
+  'calendar-toggle-jump': () => { ui.calendarJumpVisible = !ui.calendarJumpVisible; renderCalendar(); if (ui.calendarJumpVisible) $('#calendar-jump-date')?.focus(); },
+  'calendar-jump-go': () => jumpToCalendarDate(),
+  'week-pick': t => chooseWeekDay(t.dataset.date),
   'day-menu': () => openDayMenu(),
   'meal-menu': t => openMealMenu(t.dataset.meal),
   'copy-yesterday': () => copyYesterday(),
-  'add-food': t => { ui.meal = t.dataset.meal || defaultMeal(); ui.query = ''; go('food'); },
+  'add-food': t => { ui.meal = ui.batch.active ? ui.batch.meal : (t.dataset.meal || defaultMeal()); ui.query = ''; go('food'); },
   'edit-log': t => { const l = db.logs[t.dataset.id]; if (!l) return; l.kind === 'quick' ? openQuickSheet(l) : openFoodSheet(null, l); },
-  'set-meal': t => { ui.meal = t.dataset.meal; setPressed($('#mealchips'), 'meal', ui.meal); if (ui.foodTab === 'quick' && !ui.query) { const b = $('[data-qs=submit]'); if (b) b.textContent = `Add to ${mealLabel(ui.meal)}`; } },
+  'set-meal': t => { ui.meal = t.dataset.meal; if (ui.batch.active) ui.batch.meal = ui.meal; setPressed($('#mealchips'), 'meal', ui.meal); if (ui.foodTab === 'quick' && !ui.query) { const b = $('[data-qs=submit]'); if (b) b.textContent = `Add to ${mealLabel(ui.meal)}`; } },
   'food-tab': t => { ui.foodTab = t.dataset.t; $('#subtabs').querySelectorAll('[data-t]').forEach(b => b.setAttribute('aria-selected', b.dataset.t === ui.foodTab)); renderFoodBody(); },
   'pick-food': t => { const f = lookupFood(t.dataset.id); if (f) openFoodSheet(f); },
   'quick-log': t => {
     const f = lookupFood(t.dataset.id); if (!f) return;
     const p = defaultPortion(f);
-    afterAdd(logFood(f, p.qty, p.unitId, ui.meal, ui.date));
+    if (ui.batch.active) { stageBatchFood(f, p.qty, p.unitId); renderBatchTray(); toast('Added to your draft log'); }
+    else afterAdd(logFood(f, p.qty, p.unitId, ui.meal, ui.date));
   },
   'off-search': () => runOnlineSearch(),
   'search-history': t => { ui.query = t.dataset.q; $('#q').value = ui.query; renderFoodBody(); runOnlineSearch(); },
   'create-food': t => openCustomFoodSheet({ name: t.dataset.name || '', thenLog: ui.tab === 'food' }),
   'lib-food': t => { const f = Repo.food(t.dataset.id); if (f) openCustomFoodSheet({ food: f }); },
+  'batch-start': () => startBatch(),
+  'batch-return': () => { ui.meal = ui.batch.meal; go('food'); },
+  'batch-cancel': () => cancelBatch(),
+  'batch-review': () => openBatchReview(),
   'barcode-lookup': () => {
     const el = $('#bc'), code = (el?.value || '').replace(/\D/g, '');
     if (code.length < 6) { toast('Enter the full barcode number'); return; }
     el.blur(); lookupBarcode(code);
   },
   'scan': () => openScanner(),
-  'log-saved-meal': t => { const sm = db.savedMeals[t.dataset.id]; if (sm) logSavedMealWithUndo(sm, ui.meal); },
+  'label-scan': () => openCustomFoodSheet({ thenLog: ui.tab === 'food', scanLabel: true }),
+  'ai-parse': async () => {
+    const a = ui.ai, ta = $('#aitext');
+    if (ta) a.text = ta.value.trim();
+    if ((!a.text && !a.photo) || a.state === 'loading') return;
+    ta?.blur();
+    a.state = 'loading'; a.msg = ''; renderFoodBody();
+    try {
+      const parsed = a.photo ? await AI.parsePhoto(a.photo, a.text) : await AI.parse(a.text);
+      a.items = (await Promise.all(parsed.map(matchAiItem))).map(t => (a.photo ? { ...t, est: true } : t));
+      a.state = a.items.length ? 'idle' : 'error';
+      if (!a.items.length) a.msg = a.photo ? "Couldn't spot any food in that photo. Try a closer shot, or describe it instead." : "Couldn't find any foods in that. Try listing each food with its amount.";
+    } catch (e) { a.state = 'error'; a.msg = AI.errorText(e); }
+    if (ui.tab === 'food' && ui.foodTab === 'ai' && !ui.query) renderFoodBody();
+  },
+  'ai-photo': () => $('#aiphoto')?.click(),
+  'ai-clear-photo': () => { ui.ai.photo = null; ui.ai.items = []; ui.ai.state = 'idle'; renderFoodBody(); },
+  'ai-add': () => {
+    const a = ui.ai, ids = [], base = Date.now();
+    if (ui.batch.active) {
+      a.items.filter(t => t.foodId && t.qty > 0).forEach(t => {
+        const f = lookupFood(t.foodId) || { id:t.foodId, name:t.snap.name, brand:t.snap.brand, source:'custom', per100:t.snap.per100, servings:t.snap.servings };
+        const ok = Nutrition.units(f.servings).some(u => u.id === t.unitId);
+        stageBatchFood(f, ok ? t.qty : t.grams, ok ? t.unitId : 'g');
+      });
+      ui.ai = { text:'', items:[], state:'idle', msg:'', photo:null }; render(); toast('Foods added to draft log'); return;
+    }
+    a.items.filter(t => t.foodId && t.qty > 0).forEach((t, i) => {
+      const f = lookupFood(t.foodId) || { id: t.foodId, name: t.snap.name, brand: t.snap.brand, source: 'custom', per100: t.snap.per100, servings: t.snap.servings };
+      const ok = Nutrition.units(f.servings).some(u => u.id === t.unitId);
+      const l = logFood(f, ok ? t.qty : t.grams, ok ? t.unitId : 'g', ui.meal, ui.date);
+      l.createdAt = base + i; ids.push(l.id);
+    });
+    save();
+    const meal = ui.meal;
+    ui.ai = { text: '', items: [], state: 'idle', msg: '', photo: null };
+    renderFoodBody();
+    toast(`Added ${ids.length} to ${mealLabel(meal)}`, { label: 'Undo', fn: () => { ids.forEach(i => delete db.logs[i]); save(); if (ui.tab === 'today') render(); } });
+  },
+  'save-gemini': () => { db.settings.geminiKey = $('#gemkey').value.trim(); db.settings.geminiModel = ''; save(); render(); toast(db.settings.geminiKey ? 'Gemini key saved' : 'Gemini key removed'); },
+  'test-gemini': async () => {
+    const st = $('#gemstatus'); if (st) st.textContent = 'Testing…';
+    try {
+      const { model } = await AI.run('Reply with only this JSON: {"ok":true}', 'ping');
+      if ($('#gemstatus')) $('#gemstatus').textContent = `Connected. Using ${model}.`;
+    } catch (e) { if ($('#gemstatus')) $('#gemstatus').textContent = AI.errorText(e) + (e.body ? ` (${String(e.body).slice(0, 160)})` : ''); }
+  },
+  'log-saved-meal': t => { const sm = db.savedMeals[t.dataset.id]; if (!sm) return; if (ui.batch.active) { sm.items.forEach(it => stageBatchItem(it)); render(); toast('Added meal items to draft log'); } else logSavedMealWithUndo(sm, ui.meal); },
   'open-saved-meal': t => { const sm = db.savedMeals[t.dataset.id]; if (sm) openSavedMealSheet(sm); },
   'create-recipe': () => openRecipeSheet(),
   'lib-recipe': t => { const r = db.recipes[t.dataset.id]; if (r) openRecipeSheet(r); },
   'lib-meal': t => { const sm = db.savedMeals[t.dataset.id]; if (sm) openMealEditor(sm); },
   'dow-target': t => openDowSheet(+t.dataset.dow),
   'add-weight': () => {
-    const val = parseNum($('#w').value);
-    if (!(val > 0)) { toast('Enter your weight'); return; }
-    db.weights[todayKey()] = { date: todayKey(), kg: fromDisplayW(val) }; save(); render(); toast('Weight saved');
+    const val = parseNum($('#w').value), key = $('#weight-date')?.value;
+    if (!(val > 0 && val < 1000)) { toast('Enter a valid weight'); return; }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(key || '') || dateKey(parseKey(key)) !== key) { toast('Choose a valid date'); return; }
+    db.weights[key] = { date: key, kg: fromDisplayW(val) }; save(); render(); toast(`Weight saved for ${dayLabel(key)}`);
   },
   'del-weight': t => { const w = db.weights[t.dataset.date]; delete db.weights[t.dataset.date]; save(); render(); toast('Weight removed', { label: 'Undo', fn: () => { db.weights[w.date] = w; save(); render(); } }); },
   'save-targets': () => {
@@ -1745,6 +2936,23 @@ document.addEventListener('click', e => {
   const fn = actions[t.dataset.action]; if (fn) fn(t, e);
 }, true);
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#sheet').hidden) closeSheet(); });
+// Swipe across the calendar grid to move months. Vertical scrolling remains native.
+let calendarTouch = null;
+document.addEventListener('touchstart', e => {
+  if (e.target.closest('.calendar-grid') && e.touches.length === 1)
+    calendarTouch = {x:e.touches[0].clientX, y:e.touches[0].clientY};
+  else calendarTouch = null;
+}, {passive:true});
+document.addEventListener('touchend', e => {
+  if (!calendarTouch || !e.target.closest('.calendar-grid') || !e.changedTouches.length) { calendarTouch = null; return; }
+  const dx = e.changedTouches[0].clientX - calendarTouch.x;
+  const dy = e.changedTouches[0].clientY - calendarTouch.y;
+  calendarTouch = null;
+  if (Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+    ui.lastCalendarSwipe = Date.now();
+    changeCalendarMonth(dx < 0 ? 1 : -1);
+  }
+}, {passive:true});
 
 // Keep "Today" honest if the app stays open past midnight.
 document.addEventListener('visibilitychange', () => {
