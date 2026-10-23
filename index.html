@@ -1683,7 +1683,7 @@ function renderFoodBody() {
         <button class="btn" data-action="ai-parse" ${a.state === 'loading' ? 'disabled' : ''}>${a.state === 'loading' ? (a.photo ? 'Looking…' : 'Reading…') : a.photo ? 'Analyze photo' : 'Find foods'}</button>
         <button class="btn ghost" data-action="ai-photo" ${a.state === 'loading' ? 'disabled' : ''}>${I.camera}<span style="margin-left:8px">${a.photo ? 'New photo' : 'Photo'}</span></button>
       </div>
-      ${!a.photo ? `<button class="smart-web-btn" data-action="ai-web" ${a.state === 'loading' ? 'disabled' : ''}>${I.search} ${a.state === 'loading' ? 'Looking for nutrition sources…' : 'Search the web with AI'}<span>Brand, restaurant and cultural foods</span></button>` : ''}
+      ${!a.photo ? `<button class="smart-web-btn" data-action="ai-web" ${a.state === 'loading' ? 'disabled' : ''}>${I.search} ${a.state === 'loading' ? 'Estimating nutrition…' : 'Estimate with Gemini AI'}<span>Free-tier AI estimates · no live web search</span></button>` : ''}
       ${a.webSources?.length ? `<div class="smart-sources"><strong>Sources consulted</strong>${a.webSources.map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title || s.url)} ↗</a>`).join('')}<p class="hint">AI summaries are not verified nutrition labels. Open sources to confirm nutrition, servings and preparation.</p></div>` : ''}
       <input type="file" id="aiphoto" accept="image/*" hidden>
       ${a.photo ? `<img class="aiimg" src="${a.photo}" alt="Your meal photo"><div class="s-sec"><span></span><button class="textbtn danger" data-action="ai-clear-photo">Remove photo</button></div>` : ''}
@@ -2867,7 +2867,7 @@ const actions = {
     try {
       const r = await fetch('/.netlify/functions/smart-food', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({description:a.text})});
       const j = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(j.error || `Web nutrition search unavailable (${r.status}).`);
+      if (!r.ok) throw new Error(j.error || `AI nutrition estimation unavailable (${r.status}).`);
       a.webSources = Array.isArray(j.sources) ? j.sources.filter(s => /^https:\/\//.test(s.url)).slice(0,6) : [];
       a.items = (Array.isArray(j.items) ? j.items : []).slice(0,10).map((x,i) => {
         const grams = Math.max(1, Math.min(2000, Number(x.grams) || 100));
