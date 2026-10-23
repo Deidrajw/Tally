@@ -282,6 +282,12 @@ svg{display:block}
 .stack{display:flex;flex-direction:column;gap:10px}
 
 
+.smart-web-btn{width:100%;display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;background:var(--sunk);border:1px solid var(--line);padding:12px;border-radius:13px;margin-top:10px;font-size:14px;font-weight:650;color:var(--ink)}
+.smart-web-btn svg{height:18px;width:18px;color:var(--accent)}
+.smart-web-btn span{width:100%;text-align:center;color:var(--ink3);font-weight:400;font-size:12px}
+.smart-web-btn:disabled{opacity:.55}
+.smart-sources{margin-top:12px;padding:12px;background:var(--sunk);border-radius:13px;font-size:13px;display:grid;gap:8px}
+.smart-sources a{color:var(--accent);overflow-wrap:anywhere}
 /* ============ selective copy v1.1 ============ */
 .copy-picker-intro{margin:8px 0 14px;color:var(--ink2);font-size:13.5px;line-height:1.5}
 .copy-picker-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 8px}
@@ -1677,6 +1683,8 @@ function renderFoodBody() {
         <button class="btn" data-action="ai-parse" ${a.state === 'loading' ? 'disabled' : ''}>${a.state === 'loading' ? (a.photo ? 'Looking…' : 'Reading…') : a.photo ? 'Analyze photo' : 'Find foods'}</button>
         <button class="btn ghost" data-action="ai-photo" ${a.state === 'loading' ? 'disabled' : ''}>${I.camera}<span style="margin-left:8px">${a.photo ? 'New photo' : 'Photo'}</span></button>
       </div>
+      ${!a.photo ? `<button class="smart-web-btn" data-action="ai-web" ${a.state === 'loading' ? 'disabled' : ''}>${I.search} ${a.state === 'loading' ? 'Looking for nutrition sources…' : 'Search the web with AI'}<span>Brand, restaurant and cultural foods</span></button>` : ''}
+      ${a.webSources?.length ? `<div class="smart-sources"><strong>Sources consulted</strong>${a.webSources.map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title || s.url)} ↗</a>`).join('')}<p class="hint">AI summaries are not verified nutrition labels. Open sources to confirm nutrition, servings and preparation.</p></div>` : ''}
       <input type="file" id="aiphoto" accept="image/*" hidden>
       ${a.photo ? `<img class="aiimg" src="${a.photo}" alt="Your meal photo"><div class="s-sec"><span></span><button class="textbtn danger" data-action="ai-clear-photo">Remove photo</button></div>` : ''}
       ${a.state === 'error' ? `<p class="status">${esc(a.msg)}</p>` : ''}
@@ -1687,7 +1695,7 @@ function renderFoodBody() {
     $('#aiphoto').addEventListener('change', async e => {
       const file = e.target.files[0]; if (!file) return;
       a.text = ta.value.trim();
-      try { a.photo = await imageToJpeg(file); a.items = []; } catch (err) { a.state = 'error'; a.msg = AI.errorText(err); renderFoodBody(); return; }
+      try { a.photo = await imageToJpeg(file); a.items = []; a.webSources = []; } catch (err) { a.state = 'error'; a.msg = AI.errorText(err); renderFoodBody(); return; }
       actions['ai-parse']();
     });
     ta.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) actions['ai-parse'](); });
@@ -2558,7 +2566,7 @@ function bindAiReview(body) {
     const n = Nutrition.sum(ok.map(itemNutrition));
     sum.innerHTML = ok.length ? `<p class="s-extra" style="margin-top:12px">Total ${fmtN(n.kcal)} kcal, ${MACROS.map(m => `${m.short} ${fmtN(n[m.key] || 0)} g`).join(', ')}</p>
       <button class="btn block" style="margin-top:10px" data-action="ai-add">Add ${ok.length} ${ok.length === 1 ? 'food' : 'foods'} to ${mealLabel(ui.meal)}</button>
-      <p class="hint">${a.items.some(t => t.est) ? 'Amounts from photos are estimates, and they matter more than the match. Adjust any that look off.' : 'Check each match. Tap a food name to pick a closer one.'}</p>`
+      <p class="hint">${a.items.some(t => t.est) ? 'These AI estimates are not verified nutrition labels. Check the serving size and nutrition against any linked sources before logging.' : 'Check each match. Tap a food name to pick a closer one.'}</p>`
       : (a.items.length ? '<p class="hint">Nothing matched yet. Search for the foods instead.</p>' : '');
   };
   const draw = () => { ul.innerHTML = a.items.map(aiRow).join(''); drawSum(); };
@@ -2851,12 +2859,36 @@ const actions = {
   },
   'scan': () => openScanner(),
   'label-scan': () => openCustomFoodSheet({ thenLog: ui.tab === 'food', scanLabel: true }),
+  'ai-web': async () => {
+    const a = ui.ai, ta = $('#aitext');
+    if (ta) a.text = ta.value.trim();
+    if (!a.text || a.state === 'loading') { if (!a.text) toast('Describe what you ate first'); return; }
+    ta?.blur(); a.state = 'loading'; a.msg = ''; a.webSources = []; renderFoodBody();
+    try {
+      const r = await fetch('/.netlify/functions/smart-food', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({description:a.text})});
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error || `Web nutrition search unavailable (${r.status}).`);
+      a.webSources = Array.isArray(j.sources) ? j.sources.filter(s => /^https:\/\//.test(s.url)).slice(0,6) : [];
+      a.items = (Array.isArray(j.items) ? j.items : []).slice(0,10).map((x,i) => {
+        const grams = Math.max(1, Math.min(2000, Number(x.grams) || 100));
+        const nutr = {};
+        for (const k of ['kcal','protein','carbs','fat']) nutr[k] = Math.max(0, (Number(x[k]) || 0) * 100 / grams);
+        const id = `smart-${Date.now()}-${i}`;
+        const f = {id, name:String(x.name || 'Unidentified food').slice(0,120), brand:'AI estimate — review', source:'custom', per100:nutr, servings:[]};
+        ui.offMap[id] = f;
+        return {kind:'food', raw:f.name, est:true, p:{}, search:f.name, cands:[id],foodId:id,qty:grams,unitId:'g',grams,snap:{name:f.name,brand:f.brand,per100:{...nutr},servings:[]}};
+      });
+      a.state = a.items.length ? 'idle' : 'error';
+      if (!a.items.length) a.msg = 'No nutrition estimate was returned. Try naming the portion and restaurant or brand.';
+    } catch(e) { a.state='error'; a.msg=String(e.message || 'AI web search failed. Please retry.'); }
+    if (ui.tab === 'food' && ui.foodTab === 'ai') renderFoodBody();
+  },
   'ai-parse': async () => {
     const a = ui.ai, ta = $('#aitext');
     if (ta) a.text = ta.value.trim();
     if ((!a.text && !a.photo) || a.state === 'loading') return;
     ta?.blur();
-    a.state = 'loading'; a.msg = ''; renderFoodBody();
+    a.state = 'loading'; a.msg = ''; a.webSources = []; renderFoodBody();
     try {
       const parsed = a.photo ? await AI.parsePhoto(a.photo, a.text) : await AI.parse(a.text);
       a.items = (await Promise.all(parsed.map(matchAiItem))).map(t => (a.photo ? { ...t, est: true } : t));
@@ -2866,7 +2898,7 @@ const actions = {
     if (ui.tab === 'food' && ui.foodTab === 'ai' && !ui.query) renderFoodBody();
   },
   'ai-photo': () => $('#aiphoto')?.click(),
-  'ai-clear-photo': () => { ui.ai.photo = null; ui.ai.items = []; ui.ai.state = 'idle'; renderFoodBody(); },
+  'ai-clear-photo': () => { ui.ai.photo = null; ui.ai.items = []; ui.ai.webSources = []; ui.ai.state = 'idle'; renderFoodBody(); },
   'ai-add': () => {
     const a = ui.ai, ids = [], base = Date.now();
     if (ui.batch.active) {
@@ -2875,7 +2907,7 @@ const actions = {
         const ok = Nutrition.units(f.servings).some(u => u.id === t.unitId);
         stageBatchFood(f, ok ? t.qty : t.grams, ok ? t.unitId : 'g');
       });
-      ui.ai = { text:'', items:[], state:'idle', msg:'', photo:null }; render(); toast('Foods added to draft log'); return;
+      ui.ai = { text:'', items:[], state:'idle', msg:'', photo:null, webSources:[] }; render(); toast('Foods added to draft log'); return;
     }
     a.items.filter(t => t.foodId && t.qty > 0).forEach((t, i) => {
       const f = lookupFood(t.foodId) || { id: t.foodId, name: t.snap.name, brand: t.snap.brand, source: 'custom', per100: t.snap.per100, servings: t.snap.servings };
@@ -2885,7 +2917,7 @@ const actions = {
     });
     save();
     const meal = ui.meal;
-    ui.ai = { text: '', items: [], state: 'idle', msg: '', photo: null };
+    ui.ai = { text: '', items: [], state: 'idle', msg: '', photo: null, webSources: [] };
     renderFoodBody();
     toast(`Added ${ids.length} to ${mealLabel(meal)}`, { label: 'Undo', fn: () => { ids.forEach(i => delete db.logs[i]); save(); if (ui.tab === 'today') render(); } });
   },
