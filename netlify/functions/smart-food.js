@@ -11,7 +11,7 @@ exports.handler = async (event) => {
   if (!description || description.length > 600) return reply(400,{error:'Describe your food in 1–600 characters.'});
   const prompt='You are helping a Canadian user log food. Research the description using Google Search grounding. Prefer actual restaurant/brand nutrition pages or nationally published nutrition datasets. Interpret cultural foods and spelling variants intelligently. Break combinations into separately editable foods (e.g., beef patty and coco bread). Do not invent source URLs. If exact product nutrition is unavailable, estimate conservatively for plausible portion sizes and explicitly treat ALL calculated numbers as approximations. Return ONLY a JSON object (no markdown) with {"items":[{"name":"","grams":100,"kcal":0,"protein":0,"carbs":0,"fat":0}],"explanation":""}. Maximum 10 items. All nutrition numbers refer to the displayed grams/portion and must be nonnegative finite numbers. Do not claim precision or verified figures. User food: '+description;
   try {
-    const response=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+encodeURIComponent(key), {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],tools:[{google_search:{}}],generationConfig:{temperature:0.15}}),signal:AbortSignal.timeout(24000)});
+    const response=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key='+encodeURIComponent(key), {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],tools:[{google_search:{}}],generationConfig:{temperature:0.15}}),signal:AbortSignal.timeout(24000)});
     if(!response.ok) {
       let detail={}; try { detail=await response.json(); } catch {}
       const googleCode=String(detail?.error?.status||'').slice(0,64);
@@ -21,7 +21,7 @@ exports.handler = async (event) => {
         response.status===429 ? 'Gemini rate limit or quota reached. Check usage and billing in Google AI Studio.' :
         response.status>=500 ? 'Gemini is temporarily unavailable.' : 'Gemini rejected the request.';
       console.error('Gemini upstream error', {status:response.status, code:googleCode});
-      return reply(502,{error:reason, upstreamStatus:response.status, upstreamCode:googleCode, model:'gemini-2.5-flash'});
+      return reply(502,{error:reason, upstreamStatus:response.status, upstreamCode:googleCode, model:'gemini-3.1-flash-lite'});
     }
     const j=await response.json(); const c=j.candidates?.[0]||{};
     const raw=(c.content?.parts||[]).map(p=>p.text||'').join('').trim();
