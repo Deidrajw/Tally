@@ -39,3 +39,8 @@ Cloudflare Pages URL supplied: https://tally-4fg.pages.dev/. Confirm deployment 
 - Netlify backend remains as safety fallback.
 - Tests: source inspection completed; runtime HTTP/Gemini/Cloudflare/iPhone all **Not Tested**.
 - No data schema changes. No Cloudflare deployment verified.
+
+## Home Screen icon update (2026-10-23)
+- Added root `apple-touch-icon.png` (180×180 simplified leaf artwork) and linked it from `index.html`.
+- GitHub changes committed; Cloudflare and iPhone Home Screen display not yet independently verified.
+- Storage schema and food data untouched. Next verify the live icon URL, then refresh the installed shortcut on iPhone if the old icon is cached.
