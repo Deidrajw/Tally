@@ -12,10 +12,10 @@
 - Prior Netlify deployment was observed ready, but Cloudflare has not been validated.
 
 ## This session
-Initialized the living repository documentation. No application-code migration or data migration has been performed as part of this documentation step. Check the commit history for the exact documentation commit.
+Initialized documentation previously. This session committed `functions/api/smart-food.js` and an origin-aware frontend request routing change. Existing Netlify function remains untouched. No production data migration or verified Cloudflare deploy yet.
 
 ## Remaining work
-1. Create Cloudflare Pages Functions or Worker implementation and adapt client API route.
+1. Cloudflare Pages implementation is in GitHub; configure and verify the runtime on Pages.
 2. Verify quota-friendly Gemini behavior; no paid grounding.
 3. Connect Cloudflare to GitHub `main`, store the key as a secret.
 4. Test DEMO workflows and real app features without touching production data.
@@ -27,3 +27,10 @@ Read `PROJECT_STATE.md`, this file, `KNOWN_ISSUES.md`, `ROADMAP.md`, then inspec
 
 ## Warning
 Do not claim any Cloudflare app is live merely because its GitHub code exists. Do not assume a domain move preserves localStorage records.
+
+## Cloudflare Phase 1 handoff
+- New endpoint: POST `/api/smart-food` through `functions/api/smart-food.js`.
+- Cloudflare configuration: GitHub `main`, build command `exit 0`, output `.`, encrypted `GEMINI_API_KEY`, optional `GEMINI_MODEL`.
+- Frontend continues to call the original Netlify path on `.netlify.app`.
+- No paid search grounding. The free model may be quota-limited.
+- Runtime tests, standalone full app demo/ZIP and new-domain data restore not completed in this session.
