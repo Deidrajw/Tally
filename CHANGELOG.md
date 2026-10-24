@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — corrected Apple icon
+- Replaced `apple-touch-icon.png` with the exact user-approved 180×180 PNG (29,397 bytes), without simplification or redraw.
+- The `index.html` touch icon link remains unchanged. Deployment and iPhone cache refresh still require verification.
+
 ## Unreleased — iPhone Home Screen icon
 - Added `apple-touch-icon.png` (180×180) and Apple touch icon link in root `index.html`.
 - Icon is a simplified flat version of the chosen green Tally leaf concept.
