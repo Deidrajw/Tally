@@ -39,3 +39,8 @@ Do not claim any Cloudflare app is live merely because its GitHub code exists. D
 - User-provided URL: https://tally-4fg.pages.dev/
 - External attempts to fetch the root and `/api/smart-food` failed from available network tools; **neither loading nor deployment commit nor API operation has been verified**.
 - Next: inspect Cloudflare deployment status in dashboard, set `GEMINI_API_KEY` under Pages Settings → Variables and Secrets (production), redeploy, test UI and POST endpoint; complete data export/import before retiring Netlify.
+
+## Home Screen icon (2026-10-23)
+- Added `apple-touch-icon.png` at repository root and the matching `<link rel="apple-touch-icon" sizes="180x180">` reference.
+- The committed PNG is a simplified 180px rendition of the chosen green leaf concept, rather than the original more detailed generated PNG.
+- No food-tracking logic changes. Cloudflare and physical iPhone verification outstanding.
