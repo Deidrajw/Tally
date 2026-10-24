@@ -1,8 +1,8 @@
 # Roadmap
 
 ## P0 — Cloudflare migration and data safety
-- [ ] Choose and document Cloudflare Pages/Workers deployment mode.
-- [ ] Port Netlify food-estimate function and adapt frontend URL.
+- [x] Choose and document Cloudflare Pages Functions mode.
+- [x] Commit Pages function and origin-aware frontend route (still needs runtime verification).
 - [ ] Secure Gemini API key as a Cloudflare secret; free tier only.
 - [ ] Connect GitHub `main` to Cloudflare automated production deployment.
 - [ ] Establish preview deployment and synthetic DEMO data isolation.
