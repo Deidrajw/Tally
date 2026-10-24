@@ -24,3 +24,11 @@ Statuses: **Passed**, **Failed**, **Not Tested**. Documentation presence is not 
 
 ## Release reporting
 For every version document environment, tested commit, device/browser, Passed/Failed/Not Tested, outstanding blockers and actual deployed commit. Never mark Passed based on visual inspection alone.
+
+## Cloudflare Phase 1 (2026-10-23)
+- Source inspection of Cloudflare handler and origin-aware route: **Passed** (static review only).
+- GitHub commits and file availability: **Passed**.
+- Cloudflare compilation/deploy: **Not Tested**.
+- Live Gemini request, quota, and error path: **Not Tested**.
+- Food diary, mobile Safari, import/export, DEMO isolation: **Not Tested** (no live regression environment).
+- Netlify-to-Cloudflare browser storage migration: **Not Tested**.
