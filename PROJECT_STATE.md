@@ -8,7 +8,7 @@ _Last recorded: 2026-10-23. This document describes the repository state at proj
 - Browser data: `localStorage` key `tally.v1`
 - Current backend in GitHub: `netlify/functions/smart-food.js` (Gemini, free-tier interpretation without Google Search grounding)
 - Current known host: Netlify; last inspected site reported a ready deploy, but no end-to-end feature validation for this documentation change
-- Production target: Cloudflare, **NOT deployed or verified yet**
+- Production target: Cloudflare Pages, **NOT deployed or verified yet**
 - Release identifier: v1.3 Smart Food Search was the last named development milestone; exact currently deployed production version **unverified**
 
 ## Existing feature baseline
@@ -16,7 +16,7 @@ Diary, meal categories, calories/macros, daily/weekly views, calendar, Canadian 
 
 ## Immediate priority
 1. Establish repository documentation (this initialization).
-2. Migrate Netlify Smart Food Search function to Cloudflare-compatible code while keeping Gemini free-tier only.
+2. Cloudflare Pages function + origin-aware frontend routing committed (runtime still Not Tested).
 3. Set up Cloudflare Git continuous deployment and server-only `GEMINI_API_KEY`.
 4. Add separate DEMO/preview testing with synthetic records.
 5. Export production diary data from old origin, test import/restore on new Cloudflare origin, then perform release gate testing.
@@ -31,4 +31,11 @@ No paid services. No real diary records or secrets in GitHub. Do not change the 
 - This documentation initialization is not a Cloudflare release.
 
 ## Next action
-Inspect current UI invocation `/.netlify/functions/smart-food`, implement the Cloudflare counterpart and endpoint switch behind a tested migration, then create a preview and validate on Cloudflare.
+Configure GitHub-connected Cloudflare Pages (`main`, build `exit 0`, output `.`), add encrypted `GEMINI_API_KEY` secret, verify `/api/smart-food` and food logging with fake data. Export Netlify user data and verify import before cutover.
+
+## Cloudflare migration Phase 1 code
+- `functions/api/smart-food.js`: Cloudflare Pages POST handler, Gemini free-tier estimation, explicit estimates/no sources.
+- `index.html`: cloudflare `/api/smart-food` URL with `.netlify.app` compatibility branch.
+- Netlify backend remains as safety fallback.
+- Tests: source inspection completed; runtime HTTP/Gemini/Cloudflare/iPhone all **Not Tested**.
+- No data schema changes. No Cloudflare deployment verified.
