@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — iPhone Home Screen icon
+- Added `apple-touch-icon.png` (180×180) and Apple touch icon link in root `index.html`.
+- Icon is a simplified flat version of the chosen green Tally leaf concept.
+- No changes to `tally.v1` data or food tracking logic.
+- Cloudflare deployment and iOS Home Screen appearance not yet independently tested.
+
+
 Historical release labels below reflect development milestones discussed in this project, not a claim that each version was verified in production.
 
 ## Unreleased — Cloudflare migration Phase 1 (2026-10-23)
