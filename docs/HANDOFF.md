@@ -44,3 +44,7 @@ Do not claim any Cloudflare app is live merely because its GitHub code exists. D
 - Added `apple-touch-icon.png` at repository root and the matching `<link rel="apple-touch-icon" sizes="180x180">` reference.
 - The committed PNG is a simplified 180px rendition of the chosen green leaf concept, rather than the original more detailed generated PNG.
 - No food-tracking logic changes. Cloudflare and physical iPhone verification outstanding.
+
+## Apple icon correction
+- Exact user-supplied PNG has replaced the previously simplified icon at `apple-touch-icon.png`; GitHub blob SHA `c9b2adc74705f4cd071edfde5bff82beae5d3880` (29,397 bytes).
+- HTML asset reference preserved. Verify Cloudflare has deployed the latest commit, then remove and re-add iPhone Home Screen bookmark to clear cached icon.
