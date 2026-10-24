@@ -21,3 +21,8 @@
 ## ADR-005 — Separate LIVE and DEMO
 **Decision:** Real records never enter synthetic testing, and DEMO content may not overwrite production.
 **Reason:** Data integrity and reliable release testing.
+
+## ADR-006 — Dual-host transition routing
+**Decision:** Use Cloudflare Pages `/api/smart-food` on non-Netlify origins; retain `/.netlify/functions/smart-food` for `.netlify.app` while migration is in progress.
+**Reason:** Prevent breaking the still-active Netlify version before Cloudflare, Gemini free-tier behavior, and local-data import are verified.
+**Status:** Code committed, runtime not tested.
