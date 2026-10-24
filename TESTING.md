@@ -32,3 +32,9 @@ For every version document environment, tested commit, device/browser, Passed/Fa
 - Live Gemini request, quota, and error path: **Not Tested**.
 - Food diary, mobile Safari, import/export, DEMO isolation: **Not Tested** (no live regression environment).
 - Netlify-to-Cloudflare browser storage migration: **Not Tested**.
+
+## Pages candidate URL (2026-10-23)
+- Reported URL: `https://tally-4fg.pages.dev/`.
+- Automated network fetch of `/`: **Not Tested** (network could not reach origin).
+- Automated network fetch of `/api/smart-food`: **Not Tested** (network could not reach origin).
+- User-side page load, Cloudflare deployment SHA, secret configuration, POST function, Gemini, and browser data transfer: **Not Tested**.
