@@ -2,6 +2,12 @@
 
 Historical release labels below reflect development milestones discussed in this project, not a claim that each version was verified in production.
 
+## Unreleased — Cloudflare migration Phase 1 (2026-10-23)
+- Added Cloudflare Pages Functions endpoint at `functions/api/smart-food.js` (POST `/api/smart-food`).
+- Smart Food Search frontend selects Pages endpoint on non-Netlify hostnames while retaining Netlify fallback.
+- Preserved local storage schema and existing Netlify function. No Google Search grounding or paid API.
+- GitHub implementation is **not** confirmation of Cloudflare deployment, secret configuration, or live request success.
+
 ## Unreleased — repository documentation baseline (2026-10-23)
 - Add project-state, engineering, QA, release and handoff documentation.
 - No change to `tally.v1` storage and no Cloudflare migration in this documentation update.
