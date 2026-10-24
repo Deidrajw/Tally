@@ -44,3 +44,7 @@ Cloudflare Pages URL supplied: https://tally-4fg.pages.dev/. Confirm deployment 
 - Added root `apple-touch-icon.png` (180×180 simplified leaf artwork) and linked it from `index.html`.
 - GitHub changes committed; Cloudflare and iPhone Home Screen display not yet independently verified.
 - Storage schema and food data untouched. Next verify the live icon URL, then refresh the installed shortcut on iPhone if the old icon is cached.
+
+## Exact Apple icon correction
+- Replaced `apple-touch-icon.png` on `main` with the exact uploaded 180×180 PNG; verified GitHub blob SHA `c9b2adc74705f4cd071edfde5bff82beae5d3880` and size 29,397 bytes.
+- `index.html` already references this asset. Cloudflare live serving and physical iPhone refresh not yet verified.
