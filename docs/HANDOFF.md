@@ -34,3 +34,8 @@ Do not claim any Cloudflare app is live merely because its GitHub code exists. D
 - Frontend continues to call the original Netlify path on `.netlify.app`.
 - No paid search grounding. The free model may be quota-limited.
 - Runtime tests, standalone full app demo/ZIP and new-domain data restore not completed in this session.
+
+## Cloudflare Pages URL reported (2026-10-23)
+- User-provided URL: https://tally-4fg.pages.dev/
+- External attempts to fetch the root and `/api/smart-food` failed from available network tools; **neither loading nor deployment commit nor API operation has been verified**.
+- Next: inspect Cloudflare deployment status in dashboard, set `GEMINI_API_KEY` under Pages Settings → Variables and Secrets (production), redeploy, test UI and POST endpoint; complete data export/import before retiring Netlify.
